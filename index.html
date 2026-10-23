@@ -496,6 +496,51 @@ details.pay summary::-webkit-details-marker { display: none; }
 .delta.down { color: var(--red); }
 .linkbtn { background: none; border: none; color: var(--ink3); font-size: 13px; font-weight: 600; text-decoration: underline; padding: 4px; }
 
+/* ---------- 종합 순위 ---------- */
+.htop { gap: 1.2em; }
+.lboard-empty { flex: 1; }
+.lboard { flex: 1; min-width: 0; display: flex; align-items: center; gap: .5em; justify-content: center; background: none; border: none; padding: 0; font: inherit; overflow: hidden; }
+.lboard .lb-lab { font-weight: 800; font-size: .8em; color: var(--ink2); white-space: nowrap; }
+.lboard .lb-it { display: inline-flex; align-items: center; gap: .3em; background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: .28em .75em .28em .45em; font-weight: 700; font-size: .85em; white-space: nowrap; box-shadow: var(--shadow); min-width: 0; transition: transform .3s; }
+.lboard .lb-it.first { border-color: var(--yellow); background: var(--yellow-soft); }
+.lboard .lb-it .av { font-size: 1.15em; line-height: 1; }
+.lboard .lb-it .nm { max-width: 7em; overflow: hidden; text-overflow: ellipsis; }
+.lboard .lb-more { font-size: .78em; color: var(--ink3); font-weight: 600; white-space: nowrap; }
+.lboard:hover .lb-it { border-color: var(--ink3); }
+.mv-up { color: var(--green); font-weight: 900; font-size: .85em; animation: pop .4s both; }
+.mv-down { color: var(--red); font-weight: 900; font-size: .85em; animation: pop .4s both; }
+.gain { color: var(--green); font-weight: 800; font-size: .8em; animation: pop .4s both; }
+.gain.neg { color: var(--red); }
+.boardmodal { width: min(56em, 92vw); font-size: 17px; }
+.btable { font-size: 1em; }
+.bt-head, .bt-row { display: grid; grid-template-columns: 3.4em minmax(0, 1fr) 4.4em 4.4em 4.4em 4.4em 5em; align-items: center; gap: .4em; }
+.bt-head { font-weight: 700; color: var(--ink3); padding: 0 .8em .5em; border-bottom: 1px solid var(--line); }
+.bt-head span { font-size: .78em; }
+.bt-head span:nth-child(n+3) { text-align: right; }
+.bt-body { position: relative; margin-top: .4em; transition: height .4s; }
+.bt-row { position: absolute; left: 0; right: 0; height: 2.7em; padding: 0 .8em; border-radius: 12px; background: var(--card); border: 1px solid var(--line); transition: top .7s cubic-bezier(.2, .8, .2, 1); font-weight: 700; }
+.bt-row.first { background: var(--yellow-soft); border-color: var(--yellow); }
+.bt-row .md { font-size: 1.15em; }
+.bt-row .who { display: flex; align-items: center; gap: .4em; min-width: 0; }
+.bt-row .who .av { font-size: 1.25em; }
+.bt-row .who .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bt-row .num { text-align: right; color: var(--ink2); }
+.bt-row .tot { color: var(--ink); font-size: 1.2em; font-weight: 900; }
+.bt-note { font-size: .8em; margin: .9em 0 0; }
+
+/* 학생 폰 · 순위 칩과 전체 순위 */
+button.scorechip { font: inherit; font-weight: 800; font-size: 14px; color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+.rankchip.bump { animation: pop .45s cubic-bezier(.2, .9, .3, 1.2) both; border-color: var(--yellow); background: var(--yellow-soft); }
+.rankchip .gain, .rankchip .mv-up, .rankchip .mv-down { font-size: 12px; }
+.sheet-bg { position: fixed; inset: 0; background: rgba(30, 29, 27, .35); z-index: 30; display: flex; align-items: flex-end; justify-content: center; animation: fadeUp .2s both; }
+.sheet { width: 100%; max-width: 480px; max-height: 75vh; overflow: auto; background: var(--bg); border-radius: 22px 22px 0 0; padding: 16px 16px calc(20px + env(safe-area-inset-bottom)); }
+.sh-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 17px; }
+.sh-row { display: grid; grid-template-columns: 38px 30px 1fr auto; align-items: center; gap: 6px; padding: 10px 12px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); margin-bottom: 6px; font-weight: 700; }
+.sh-row.me { border-color: var(--rust); background: var(--rust-soft); }
+.sh-row .av { font-size: 22px; }
+.sh-row .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kvsub { display: block; font-size: 12px; color: var(--ink3); font-weight: 600; margin-top: 2px; }
+
 </style>
 </head>
 <body>
@@ -2881,6 +2926,7 @@ const DEFAULTS = {
   bluffRounds: 4,        // 보너스 게임 판 수 (한 판에 모두 한 번씩 말하고 한 번씩 판단)
   bluffTimer: 40,        // 보너스 게임 제한시간(초). 0이면 표시 안 함
   bluffNextDelay: 8,     // 보너스 게임 자동 진행 대기(초)
+  boardOn: true,         // 모든 게임 점수를 합친 종합 순위를 진행자 화면과 학생 폰에 보여 주기
 };
 
 /* ---------- 2. 작은 도구들 ---------- */
@@ -3884,6 +3930,39 @@ function createHost(params, net) {
     return { per, gauge, rateA: rateOf('A'), rateB: rateOf('B'), groupTotal: got };
   }
 
+  /* ---------- 종합 점수 (모든 게임) ---------- */
+  const GUESS_PT = 1; // 알고리즘 정체를 하나 맞힐 때마다
+  const COINS_PER_PT = 10; // 공공재 코인 10개 = 종합 1점
+  // 공공재는 동물 가면으로 익명이다. 판마다 점수를 올리면 누가 덜 넣었는지 이름으로 드러나서, 게임이 끝날 때 한 번에 더한다
+  const pggDone = () => !!S.pgg && (S.stage !== 'pgg' || (S.pgg.part === 'B' && S.pgg.phase === 'end'));
+  const pggPts = (pid) => Math.round(((S.pgg && S.pgg.totals[pid]) || 0) / COINS_PER_PT);
+  // 정체 맞히기는 앞 화면에서 그 알고리즘을 공개할 때, 우승 예측은 토너먼트 결과가 나올 때 더한다 (순위로 답이 새지 않게)
+  const revealedAlgo = (i) => S.stage !== 'bots' || S.bots.revealed[i] || ['bet', 'tourney', 'echo'].includes(S.bots.phase);
+  const betCounted = () => !!S.bots.winner && (S.stage !== 'bots' || S.bots.phase !== 'tourney' || !!S.bots.betShown);
+  function scoreOf(pid) {
+    const pd = S.pd ? [1, 2].reduce((a, k) => a + ((S.pd.parts[k] && S.pd.parts[k].scores[pid]) || 0), 0) : 0;
+    const bluff = S.bluff ? S.bluff.scores[pid] || 0 : 0;
+    let bots = 0;
+    if (S.bots) {
+      const p = S.bots.prog[pid];
+      if (p) {
+        bots += sum(p.score);
+        if (p.guess) p.guess.forEach((g, i) => { if (g === ALGOS[i].key && revealedAlgo(i)) bots += GUESS_PT; });
+      }
+      if (S.bots.bets && S.bots.bets[pid] === S.bots.winner && betCounted()) bots += BET_WIN;
+    }
+    const pgg = pggDone() ? pggPts(pid) : 0;
+    return { pd, bluff, bots, pgg, total: pd + bluff + bots + pgg };
+  }
+  function scoreBoard() {
+    const list = activePids().map((pid) => ({ pid, name: humanName(pid), avatar: P(pid).avatar, ...scoreOf(pid) }));
+    list.sort((a, b) => b.total - a.total || a.name.localeCompare(b.name, 'ko'));
+    let prev = null;
+    let rank = 0;
+    list.forEach((x, i) => { if (x.total !== prev) { rank = i + 1; prev = x.total; } x.rank = rank; });
+    return list;
+  }
+
   /* ---------- 결과 요약 ---------- */
   function pdStats() {
     if (!S.pd) return null;
@@ -3948,7 +4027,8 @@ function createHost(params, net) {
         break;
       }
       case 'final':
-        if (S.finalPhase !== 'surprise') S.finalPhase = 'surprise';
+        if (S.finalPhase === 'data') S.finalPhase = set().boardOn ? 'board' : 'surprise';
+        else if (S.finalPhase === 'board') S.finalPhase = 'surprise';
         else S.stage = 'lobby';
         break;
       default:
@@ -4027,7 +4107,9 @@ function createHost(params, net) {
         break;
       }
       case 'final':
-        return S.finalPhase === 'surprise' ? { label: '처음 화면으로', soft: true } : { label: '🎁 서프라이즈' };
+        if (S.finalPhase === 'surprise') return { label: '처음 화면으로', soft: true };
+        if (S.finalPhase === 'data' && set().boardOn) return { label: '🏆 종합 순위' };
+        return { label: '🎁 서프라이즈' };
       default:
         break;
     }
@@ -4117,16 +4199,26 @@ function createHost(params, net) {
   }
 
   /* ---------- 학생 화면에 보낼 내용 ---------- */
+  let board = null; // flush 한 번에 한 번만 계산
   function viewFor(pid) {
     const p = P(pid);
     const base = { sid: S.sid, me: { pid, name: p.name, avatar: p.avatar }, stage: S.stage, ack: (acks[pid] || []).slice() };
     if (p.kicked) return { ...base, screen: 'kicked' };
+    if (board && board.length && S.stage !== 'lobby') {
+      const me = board.find((x) => x.pid === pid);
+      if (me) {
+        base.rk = { rank: me.rank, of: board.length, total: me.total };
+        base.lb = board.map((x) => ({ n: x.name, a: x.avatar, t: x.total, r: x.rank, me: x.pid === pid }));
+        if (S.stage === 'pgg' && !pggDone()) base.lbNote = 'pgg';
+      }
+    }
     if (S.stage === 'lobby') return { ...base, screen: 'lobby', n: activePids().length, wave: p.wave || 0 };
     if (S.stage === 'pd') return { ...base, ...pdView(pid) };
     if (S.stage === 'bluff') return { ...base, ...bluffView(pid) };
     if (S.stage === 'bots') return { ...base, ...botsView(pid) };
     if (S.stage === 'pgg') return { ...base, ...pggView(pid) };
     if (S.stage === 'final' && S.finalPhase === 'surprise') return { ...base, ...surpriseView(pid) };
+    if (S.stage === 'final' && S.finalPhase === 'board') return { ...base, ...finalView(pid), podium: true };
     if (S.stage === 'final') return { ...base, ...finalView(pid) };
     return { ...base, screen: 'lobby', n: activePids().length };
   }
@@ -4242,7 +4334,7 @@ function createHost(params, net) {
       if (!p.guess) return { screen: 'bots_guess', score: p.score.slice(), hists: p.hist };
       return { screen: 'bots_done', guess: p.guess, score: p.score.slice() };
     }
-    return { screen: 'bots_reveal', phase: B.phase, revealed: B.revealed.slice(), guess: p.guess, score: p.score.slice(), played: p.hist.map((h) => h.length) };
+    return { screen: 'bots_reveal', phase: B.phase, revealed: B.revealed.slice(), guess: p.guess, score: p.score.slice(), played: p.hist.map((h) => h.length), gpt: GUESS_PT };
   }
   function pggView(pid) {
     const G = S.pgg;
@@ -4251,7 +4343,7 @@ function createHost(params, net) {
     const s = set();
     const common = { alias: ANIMALS[ai], part: G.part, round: G.round, rounds: pggLimit(), E: s.pggEndow, m: s.pggMult, impact: s.pggImpact, maxP: s.pggMaxPunish, total: G.totals[pid] || 0 };
     if (G.phase === 'intro' || G.phase === 'introB') return { screen: 'pgg_intro', ...common };
-    if (G.phase === 'end') return { screen: 'pgg_end', ...common };
+    if (G.phase === 'end') return { screen: 'pgg_end', ...common, pts: pggPts(pid), cpp: COINS_PER_PT };
     if (G.phase === 'surprise') {
       const st = pggStats();
       return { screen: 'pgg_surprise', ...common, gauge: st.gauge, target: s.jellyTarget / 100 };
@@ -4284,7 +4376,7 @@ function createHost(params, net) {
     return { screen: 'surprise', gauge: st ? st.gauge : null, target: set().jellyTarget / 100, total: S.pgg && S.pgg.totals[pid] !== undefined ? S.pgg.totals[pid] : null };
   }
   function finalView(pid) {
-    const out = { screen: 'final' };
+    const out = { screen: 'final', sc: scoreOf(pid), gpt: GUESS_PT, cpp: COINS_PER_PT };
     if (S.pd) {
       out.pd = [1, 2].map((k) => (S.pd.parts[k] && S.pd.parts[k].scores[pid] !== undefined ? S.pd.parts[k].scores[pid] : null));
     }
@@ -4292,6 +4384,7 @@ function createHost(params, net) {
     if (S.bots && S.bots.prog[pid]) {
       const p = S.bots.prog[pid];
       out.bots = { score: p.score.slice(), correct: p.guess ? p.guess.filter((g, i) => g === ALGOS[i].key).length : null };
+      out.botsGame = sum(p.score);
     }
     if (S.bots && S.bots.winner && S.bots.bets && S.bots.bets[pid]) {
       const k = S.bots.bets[pid];
@@ -4319,6 +4412,7 @@ function createHost(params, net) {
     if (flushTimer) { clearTimeout(flushTimer); flushTimer = null; }
     if (!S || !ready || passive) { persist(); return; }
     sendIfChanged(T('pub'), { sid: S.sid, stage: S.stage, n: activePids().length });
+    board = set().boardOn ? scoreBoard() : null;
     S.order.forEach((pid) => sendIfChanged(T('v/' + pid), viewFor(pid)));
     persist();
   }
@@ -4393,6 +4487,8 @@ function createHost(params, net) {
         try { item.fn(); } catch (e) { console.error(e); }
       }
     }
+    // 토너먼트 애니메이션이 끝나면 우승 예측 점수를 순위에 넣는다 (멈춤과 상관없이)
+    if (S.stage === 'bots' && S.bots && S.bots.phase === 'tourney' && S.bots.winner && !S.bots.betShown && t >= (S.bots.tourneyAt || 0) + TOURNEY_MS) { S.bots.betShown = true; changed(); }
     if (!S.paused) {
       if (S.stage === 'pd' && S.pd && S.pd.phase === 'reveal' && S.pd.nextAt && t >= S.pd.nextAt) { S.pd.nextAt = null; primary(); }
       if (S.stage === 'bluff' && S.bluff && S.bluff.phase === 'reveal' && S.bluff.nextAt && t >= S.bluff.nextAt) { S.bluff.nextAt = null; primary(); }
@@ -4408,7 +4504,9 @@ function createHost(params, net) {
       const s = v === undefined || v === null ? '' : String(v);
       return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
     };
-    return '﻿' + [head.join(','), ...S.log.map((row) => cols.map((c) => esc(row[c])).join(','))].join('\n');
+    // 맨 끝에 종합 점수 (게임별 점수는 '선택' 칸에)
+    const summary = scoreBoard().map((x) => ({ t: new Date().toISOString(), stage: '종합', part: `${x.rank}등`, round: '', player: x.name, choice: `대결1 ${x.pd} / 보너스 ${x.bluff} / 대결2 ${x.bots} / 공공재 ${x.pgg}`, other: '', otherChoice: '', payoff: x.total, forced: '' }));
+    return '﻿' + [head.join(','), ...S.log.concat(summary).map((row) => cols.map((c) => esc(row[c])).join(','))].join('\n');
   }
 
   /* ---------- 진행자 화면 중복 처리 ---------- */
@@ -4498,6 +4596,10 @@ function createHost(params, net) {
     bluffStats,
     bluffRanking,
     betWin: BET_WIN,
+    scoreBoard,
+    pggDone,
+    guessPt: GUESS_PT,
+    coinsPerPt: COINS_PER_PT,
     pggRound: () => (S.pgg ? pggRound() : null),
     pggPendingContrib: () => (S.pgg && S.pgg.phase === 'contrib' ? pggPendingContrib() : []),
     pggPendingPunish: () => (S.pgg && S.pgg.phase === 'punish' ? pggPendingPunish() : []),
@@ -4893,12 +4995,13 @@ function HostApp({ host, net }) {
       if (host.resumePrompt) return;
       if (e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowRight' || e.key === 'PageDown') {
         e.preventDefault();
-        if (!host.ui.settings && !host.ui.qr) host.primary();
+        if (!host.ui.settings && !host.ui.qr && !host.ui.board) host.primary();
       } else if (e.key === 'q' || e.key === 'Q') host.setUI({ qr: !host.ui.qr });
+      else if ((e.key === 'r' || e.key === 'R') && host.S && host.S.settings.boardOn) host.setUI({ board: !host.ui.board });
       else if (e.key === 's' || e.key === 'S') host.setUI({ settings: !host.ui.settings });
       else if (e.key === 'p' || e.key === 'P') host.togglePause();
       else if (e.key === 'f' || e.key === 'F') toggleFullscreen();
-      else if (e.key === 'Escape') host.setUI({ qr: false, settings: false });
+      else if (e.key === 'Escape') host.setUI({ qr: false, settings: false, board: false });
     };
     addEventListener('keydown', onKey);
     return () => removeEventListener('keydown', onKey);
@@ -4916,6 +5019,7 @@ function HostApp({ host, net }) {
     <main class="hmain">${main}</main>
     <${ControlBar} host=${host} />
     ${ui.qr ? html`<${QROverlay} host=${host} url=${url} />` : null}
+    ${ui.board && S.settings.boardOn ? html`<${BoardOverlay} host=${host} />` : null}
     ${ui.settings ? html`<${SettingsModal} host=${host} url=${url} />` : null}
     ${host.resumePrompt ? html`<${ResumePrompt} host=${host} />` : null}
     ${host.passive ? html`<div class="overlay"><div class="card resume">
@@ -4934,7 +5038,8 @@ function HostTop({ host, net }) {
   const up = names.filter((k) => st[k] === 'up').length;
   const n = host.activePids().length;
   return html`<header class="htop">
-    <div class="muted" style=${{ fontWeight: 600, fontSize: '.8em' }}>신뢰와 배신의 사회심리학${host.params.local ? ' · 리허설 모드' : ''}</div>
+    <div class="muted" style=${{ fontWeight: 600, fontSize: '.8em', whiteSpace: 'nowrap' }}>신뢰와 배신의 사회심리학${host.params.local ? ' · 리허설 모드' : ''}</div>
+    <${LiveBoard} host=${host} />
     <div class="right">
       <span class="netdots" title=${names.map((k) => k + ': ' + st[k]).join(' / ')}>
         ${names.map((k) => html`<i class="netdot ${st[k]}"></i>`)}
@@ -4944,6 +5049,111 @@ function HostTop({ host, net }) {
       <button class="hbtn" onClick=${() => host.setUI({ qr: true })}>QR<span class="kbd">Q</span></button>
     </div>
   </header>`;
+}
+
+/* ---------- 종합 순위 (모든 게임 점수 합계) ---------- */
+const rankMedal = (r) => (r === 1 ? '🥇' : r === 2 ? '🥈' : r === 3 ? '🥉' : `${r}등`);
+// 순위가 오르내리거나 점수가 늘면 몇 초 동안 ▲▼ 와 +N 을 보여 준다
+function useBoardMoves(board) {
+  const prev = useRef(null);
+  const marks = useRef({});
+  const sig = useRef('');
+  const cur = board.map((x) => `${x.pid}:${x.rank}:${x.total}`).join(',');
+  if (cur !== sig.current) {
+    const t = now();
+    if (prev.current) {
+      board.forEach((x) => {
+        const p = prev.current[x.pid];
+        if (!p) return;
+        const m = marks.current[x.pid] && t - marks.current[x.pid].t < 4500 ? marks.current[x.pid] : { d: null, g: 0 };
+        const d = x.rank < p.rank ? 'up' : x.rank > p.rank ? 'down' : m.d;
+        const g = x.total !== p.total ? m.g + (x.total - p.total) : m.g;
+        if (d !== m.d || g !== m.g) marks.current[x.pid] = { d, g, t };
+      });
+    }
+    prev.current = Object.fromEntries(board.map((x) => [x.pid, { rank: x.rank, total: x.total }]));
+    sig.current = cur;
+  }
+  useNow(500);
+  const t = now();
+  return (pid) => { const m = marks.current[pid]; return m && t - m.t < 4500 ? m : null; };
+}
+function MoveTag({ m }) {
+  if (!m) return null;
+  // 오른 사람만 ▲ 로 표시한다 (내려간 표시는 동점 정리 때문에 헷갈려서 뺀다)
+  return html`${m.d === 'up' ? html`<span class="mv-up">▲</span>` : null}${m.g ? html`<span class="gain num ${m.g < 0 ? 'neg' : ''}">${signed(m.g)}</span>` : null}`;
+}
+
+// 진행자 화면 위쪽에 늘 떠 있는 종합 순위 (1~3등)
+function LiveBoard({ host }) {
+  const S = host.S;
+  const on = S.settings.boardOn && S.stage !== 'lobby';
+  const board = on ? host.scoreBoard() : [];
+  const mv = useBoardMoves(board);
+  if (!on || !board.length) return html`<div class="lboard-empty"></div>`;
+  const top = board.slice(0, 3);
+  return html`<button class="lboard" title="종합 순위 (R)" onClick=${() => host.setUI({ board: true })}>
+    <span class="lb-lab">🏆 종합</span>
+    ${top.map((x) => html`<span class="lb-it ${x.rank === 1 ? 'first' : ''}" key=${x.pid}>
+      <b class="md">${rankMedal(x.rank)}</b><span class="av">${x.avatar}</span><span class="nm">${x.name}</span><b class="num">${nf(x.total)}</b><${MoveTag} m=${mv(x.pid)} />
+    </span>`)}
+    ${board.length > 3 ? html`<span class="lb-more">외 ${board.length - 3}명</span>` : null}
+    <span class="kbd">R</span>
+  </button>`;
+}
+
+// R 키로 여는 전체 순위표. 줄이 순위에 맞춰 위아래로 미끄러진다
+function BoardTable({ host, board }) {
+  const mv = useBoardMoves(board);
+  const S = host.S;
+  const H = 3.1; // 줄 높이(em)
+  const pggWait = S.pgg && !host.pggDone();
+  return html`<div class="btable">
+    <div class="bt-head"><span>순위</span><span>이름</span><span>대결 1</span><span>보너스</span><span>대결 2</span><span>공공재</span><span>총점</span></div>
+    <div class="bt-body" style=${{ height: board.length * H + 'em' }}>
+      ${board.map((x, i) => html`<div class="bt-row ${x.rank === 1 ? 'first' : ''}" key=${x.pid} style=${{ top: i * H + 'em' }}>
+        <span class="md">${rankMedal(x.rank)}</span>
+        <span class="who"><span class="av">${x.avatar}</span><span class="nm">${x.name}</span><${MoveTag} m=${mv(x.pid)} /></span>
+        <span class="num">${S.pd ? nf(x.pd) : '–'}</span>
+        <span class="num">${S.bluff ? nf(x.bluff) : '–'}</span>
+        <span class="num">${S.bots ? nf(x.bots) : '–'}</span>
+        <span class="num">${pggWait ? '🎭' : S.pgg ? nf(x.pgg) : '–'}</span>
+        <b class="num tot">${nf(x.total)}</b>
+      </div>`)}
+    </div>
+    ${pggWait ? html`<p class="muted bt-note">🎭 공공재 코인은 가면이 들키지 않게 게임이 끝나면 한 번에 더해요. 코인 ${host.coinsPerPt}개 = 1점</p>` : null}
+  </div>`;
+}
+
+function BoardOverlay({ host }) {
+  const board = host.scoreBoard();
+  return html`<div class="overlay" onClick=${() => host.setUI({ board: false })}>
+    <div class="card modal boardmodal" onClick=${(e) => e.stopPropagation()}>
+      <div class="hrow" style=${{ alignItems: 'center' }}><h3>🏆 종합 순위</h3><button class="hbtn" onClick=${() => host.setUI({ board: false })}>닫기 (R)</button></div>
+      <p class="muted" style=${{ margin: '0 0 .8em', fontSize: '.85em' }}>모든 게임 점수를 합쳐요. 정체 맞히기 하나에 +${host.guessPt}, 우승 예측 맞히면 +${host.betWin}, 공공재 코인 ${host.coinsPerPt}개 = 1점</p>
+      ${board.length ? html`<${BoardTable} host=${host} board=${board} />` : html`<div class="muted">아직 참가자가 없어요.</div>`}
+    </div>
+  </div>`;
+}
+
+// 마지막: 종합 시상대
+function FinalBoard({ host }) {
+  const board = host.scoreBoard();
+  useEffect(() => { if (board.length) fireConfetti(); }, []);
+  const top = board.filter((x) => x.rank === 1);
+  const podium = board.slice(0, 3);
+  const order = [podium[1], podium[0], podium[2]].filter(Boolean);
+  return html`<div class="stack anim-fade">
+    <${Kicker}>피날레 · 종합 순위<//>
+    <h1 class="h-title sm">${board.length ? html`🏆 <em>${top.map((x) => x.name).join(', ')}</em> ${top.length > 1 ? '공동 우승' : '종합 우승'}` : '참가자가 없어요'}</h1>
+    <div class="podium">${order.map((x) => html`<div class="pod p${Math.min(x.rank, 3)}" key=${x.pid}>
+      <div class="pav">${x.avatar}</div>
+      <div class="pnm">${x.name}</div>
+      <div class="psc num">${nf(x.total)}점</div>
+      <div class="pblock">${rankMedal(x.rank)}</div>
+    </div>`)}</div>
+    ${board.length > 3 ? html`<div class="brank center">${board.slice(3).map((x) => html`<span class="rk" key=${x.pid}><b class="md">${x.rank}등</b><span class="av">${x.avatar}</span><span class="nm">${x.name}</span><b class="num sc">${nf(x.total)}점</b></span>`)}</div>` : null}
+  </div>`;
 }
 
 function ControlBar({ host }) {
@@ -5230,12 +5440,12 @@ function BluffRound({ host }) {
     </div>
     <div class="bgroups">${R.groups.map((g, i) => html`<${BluffGroupCard} key=${B.round + '-' + i + (revealed ? 'r' : 'p')} S=${S} g=${g} R=${R} revealed=${revealed} label=${labels[i]} />`)}</div>
     ${!revealed && B.round === 0 ? html`<div class="bplay-pay"><${BluffPayoff} /><div class="note">카드 이름만 말하면 돼요.<br />못 들었으면 다시 말해 달라고 하세요.</div></div>` : null}
-    ${!revealed && B.round > 0 ? html`<${BluffRankRow} host=${host} label="지금 순위" />` : null}
+    ${!revealed && B.round > 0 ? html`<${BluffRankRow} host=${host} label="보너스 순위" />` : null}
     ${revealed && xs.length ? html`<div class="statline anim-fade">
       <span>이번 판 · 거짓말 <span class="num">${xs.filter((x) => x.claim !== x.card).length}</span>번 · 믿음 <span class="num">${xs.filter((x) => x.judge === 'B').length}</span>번 · 맞힌 판단</span>
       <div class="meter"><i style=${{ width: pct(rightN / xs.length) }}></i></div><span class="num">${pct(rightN / xs.length)}</span>
     </div>` : null}
-    ${revealed ? html`<${BluffRankRow} host=${host} R=${R} label=${last ? '최종 점수' : '지금 순위'} />` : null}
+    ${revealed ? html`<${BluffRankRow} host=${host} R=${R} label=${last ? '보너스 최종 점수' : '보너스 순위'} />` : null}
   </div>`;
 }
 
@@ -5285,7 +5495,7 @@ function BluffPodium({ host }) {
   const order = [podium[1], podium[0], podium[2]].filter(Boolean); // 2등 · 1등 · 3등 순서로 세운다
   const rest = ranking.slice(3);
   return html`<div class="stack anim-fade">
-    <${Kicker}>1막 · 보너스 · 최종 순위<//>
+    <${Kicker}>1막 · 보너스 · 보너스 순위<//>
     <h1 class="h-title sm">${ranking.length ? html`🏆 <em>${top.map((x) => x.name).join(', ')}</em> ${top.length > 1 ? '공동 우승' : '우승'}` : '참가자가 없어요'}</h1>
     <div class="podium">${order.map((x) => html`<div class="pod p${Math.min(x.rank, 3)}" key=${x.pid}>
       <div class="pav">${x.avatar}</div>
@@ -5342,7 +5552,7 @@ function HostBots({ host }) {
   const play = B.phase === 'play';
   const title = B.phase === 'reveal' ? html`어떤 <em>알고리즘</em>이었을까요?` : html`이번엔 <em>알고리즘이랑</em> 해요.`;
   const sub = B.phase === 'intro'
-    ? `3가지 유형이 있어요. 각자 폰에서 알고리즘마다 ${B.rounds}판씩 해 보고 정체를 맞혀 봐요.`
+    ? `3가지 유형이 있어요. 각자 폰에서 알고리즘마다 ${B.rounds}판씩 해 보고 정체를 맞혀 봐요. 정체를 하나 맞힐 때마다 +${host.guessPt}점이에요.`
     : play ? '📱 각자 속도대로 진행해요. 세 알고리즘과 다 붙고 나면 정체도 맞혀 봐요.' : '하나씩 열어 볼게요. 누가 맞혔을까요?';
   return html`<div class="stack">
     <${Kicker}>2막 · 대결 2 · 알고리즘 전용<//>
@@ -5539,6 +5749,7 @@ function HostPGG({ host }) {
         <div class="card rule"><div class="ic">🍰</div><div class="t">모두 똑같이 나눠요</div><div class="d">안 넣은 사람도 똑같이 받아요.</div></div>
       </div>
       <p class="h-sub" style=${{ marginTop: '.6em' }}>🎭 이번엔 동물 가면을 써요. 누가 누군지 아무도 몰라요.</p>
+      ${S.settings.boardOn ? html`<p class="muted" style=${{ margin: 0 }}>🏆 모은 코인 ${host.coinsPerPt}개 = 종합 1점. 가면이 들키지 않게 공공재 게임이 끝나면 한 번에 더해요.</p>` : null}
       <${Masks} host=${host} />
     </div>`;
   }
@@ -5693,6 +5904,7 @@ function PGGSurprise({ host }) {
 /* ---------- 마무리 ---------- */
 function HostFinal({ host }) {
   if (host.S.finalPhase === 'surprise') return html`<${PGGSurprise} host=${host} />`;
+  if (host.S.finalPhase === 'board') return html`<${FinalBoard} host=${host} />`;
   const pdS = host.pdStats();
   const blS = host.S.bluff && host.S.bluff.hist.length ? host.bluffStats() : null;
   const bS = host.botStats();
@@ -5752,13 +5964,14 @@ function SettingsModal({ host, url }) {
   return html`<div class="overlay" onClick=${() => host.setUI({ settings: false })}>
     <div class="card modal" onClick=${(e) => e.stopPropagation()}>
       <div class="hrow" style=${{ alignItems: 'center' }}><h3>설정</h3><button class="hbtn" onClick=${() => host.setUI({ settings: false })}>닫기 (Esc)</button></div>
-      <p class="muted" style=${{ margin: 0, fontSize: '.85em' }}>판 수 같은 설정은 다음 단계를 시작할 때부터 적용돼요. 단축키: Space 다음 · Q QR · P 멈춤 · F 전체화면 · S 설정</p>
+      <p class="muted" style=${{ margin: 0, fontSize: '.85em' }}>판 수 같은 설정은 다음 단계를 시작할 때부터 적용돼요. 단축키: Space 다음 · Q QR · R 종합 순위 · P 멈춤 · F 전체화면 · S 설정</p>
 
       <h5>단계 바로가기</h5>
       <div class="btnrow">${['lobby', 'pd', 'bluff', 'bots', 'pgg', 'final'].map((st) => html`<button class="hbtn" onClick=${() => { if (confirm(`'${STAGE_NAMES[st]}'(으)로 갈까요? 지금 단계 진행은 멈춰요.`)) { host.goStage(st); host.setUI({ settings: false }); } }}>${STAGE_NAMES[st]}</button>`)}</div>
 
       <h5>진행</h5>
       ${chk('autoNext', '공개 후 자동으로 다음 판', 'P 키로 언제든 멈출 수 있어요')}
+      ${chk('boardOn', '종합 순위 보이기', '모든 게임 점수를 합쳐 화면 위쪽과 학생 폰에 실시간으로 보여 줘요. R 키로 전체 순위표')}
       ${num('pdNextDelay', '대결 1 자동 진행 대기 (초)', null, 2, 30)}
       ${num('bluffNextDelay', '보너스 게임 자동 진행 대기 (초)', null, 2, 30)}
       ${num('pggNextDelay', '공공재 자동 진행 대기 (초)', null, 2, 30)}
@@ -5864,11 +6077,29 @@ function screenKey(v) {
   return s;
 }
 
+// 위쪽 칩: 종합 순위가 켜져 있으면 '🏆 2등 · 37점' (누르면 전체 순위), 공공재 중에는 내 코인
 function PHead({ v, pl }) {
+  const [open, setOpen] = useState(false);
+  const rk = v && v.rk;
+  // 순위나 점수가 바뀌면 칩이 잠깐 튄다
+  const prev = useRef(null);
+  const [bump, setBump] = useState(null);
+  useEffect(() => {
+    if (!rk) return undefined;
+    const p = prev.current;
+    prev.current = rk;
+    if (!p || (p.rank === rk.rank && p.total === rk.total)) return undefined;
+    setBump({ up: rk.rank < p.rank, down: rk.rank > p.rank, g: rk.total - p.total, k: now() });
+    const id = setTimeout(() => setBump(null), 2600);
+    return () => clearTimeout(id);
+  }, [rk && rk.rank, rk && rk.total]);
   let chip = null;
-  if (v && v.screen && v.screen.startsWith('pd_') && v.screen !== 'pd_intro') chip = html`<span class="scorechip num">내 점수 ${nf(v.score)}</span>`;
-  if (v && v.screen && v.screen.startsWith('bluff_') && v.screen !== 'bluff_intro') chip = html`<span class="scorechip num">내 점수 ${nf(v.score)}</span>`;
   if (v && v.screen && v.screen.startsWith('pgg_') && v.alias) chip = html`<span class="scorechip num">${v.alias[0]} 🪙 ${fmt1(v.total)}</span>`;
+  else if (rk) {
+    chip = html`<button class="scorechip rankchip num ${bump ? 'bump' : ''}" key=${bump ? bump.k : 'c'} onClick=${() => setOpen(true)}>
+      🏆 ${rk.rank}등 · ${nf(rk.total)}점${bump && bump.g ? html`<span class="gain ${bump.g < 0 ? 'neg' : ''}">${signed(bump.g)}</span>` : null}${bump && bump.up ? html`<span class="mv-up">▲</span>` : null}
+    </button>`;
+  } else if (v && v.screen && (v.screen.startsWith('pd_') || v.screen.startsWith('bluff_')) && !v.screen.endsWith('_intro')) chip = html`<span class="scorechip num">내 점수 ${nf(v.score)}</span>`;
   const up = pl.netUp > 0;
   return html`<header class="phead">
     <div class="me">${v ? html`<span class="av">${v.me.avatar}</span><span class="nm">${v.me.name}</span>` : html`<b>신뢰 게임</b>`}</div>
@@ -5876,6 +6107,15 @@ function PHead({ v, pl }) {
       ${chip}
       <span class="netmini"><i class="netdot ${up ? 'up' : 'connecting'}"></i></span>
     </div>
+    ${open && v && v.lb ? html`<div class="sheet-bg" onClick=${() => setOpen(false)}>
+      <div class="sheet" onClick=${(e) => e.stopPropagation()}>
+        <div class="sh-head"><b>🏆 종합 순위</b><button class="linkbtn" onClick=${() => setOpen(false)}>닫기</button></div>
+        ${v.lb.map((x, i) => html`<div class="sh-row ${x.me ? 'me' : ''}" key=${i}>
+          <span class="md">${x.r === 1 ? '🥇' : x.r === 2 ? '🥈' : x.r === 3 ? '🥉' : x.r + '등'}</span><span class="av">${x.a}</span><span class="nm">${x.n}${x.me ? html`<span class="tag-me">나</span>` : null}</span><b class="num">${nf(x.t)}점</b>
+        </div>`)}
+        ${v.lbNote === 'pgg' ? html`<p class="muted" style=${{ fontSize: '12px', margin: '10px 0 0' }}>🎭 공공재 코인은 게임이 끝나면 한 번에 더해져요</p>` : null}
+      </div>
+    </div>` : null}
   </header>`;
 }
 
@@ -5947,7 +6187,7 @@ function PScreen({ v, pl }) {
     case 'pgg_creveal': return html`<${PPGGCReveal} v=${v} />`;
     case 'pgg_punish': return html`<${PPGGPunish} v=${v} pl=${pl} />`;
     case 'pgg_preveal': return html`<${PPGGPReveal} v=${v} />`;
-    case 'pgg_end': return html`<${PMsg} emoji=${v.part === 'A' ? '🏁' : '🎉'} title=${v.part === 'A' ? 'A단계 끝' : '공공재 게임 끝'} text=${`지금까지 모은 코인 🪙 ${fmt1(v.total)}개 · 앞 화면을 봐 주세요 👀`} />`;
+    case 'pgg_end': return html`<${PMsg} emoji=${v.part === 'A' ? '🏁' : '🎉'} title=${v.part === 'A' ? 'A단계 끝' : '공공재 게임 끝'} text=${v.part === 'B' && v.rk ? `모은 코인 🪙 ${fmt1(v.total)}개 → 종합 +${v.pts}점 (코인 ${v.cpp}개 = 1점) · 앞 화면을 봐 주세요 👀` : `지금까지 모은 코인 🪙 ${fmt1(v.total)}개 · 앞 화면을 봐 주세요 👀`} />`;
     case 'pgg_surprise':
     case 'surprise': return html`<${PSurprise} v=${v} />`;
     case 'final': return html`<${PFinal} v=${v} />`;
@@ -6248,7 +6488,7 @@ function PBluffReveal({ v }) {
     <div class="pcard">
       <div class="kv"><span>이번 판</span><b class="num">${signed(v.roundPay)}점</b></div>
       <div class="kv"><span>지금까지 내 점수</span><b class="num">${nf(v.score)}점</b></div>
-      ${v.rank ? html`<div class="kv"><span>지금 순위</span><b class="num">${v.rank}등 / ${v.of}명</b></div>` : null}
+      ${v.rank ? html`<div class="kv"><span>보너스 순위</span><b class="num">${v.rank}등 / ${v.of}명</b></div>` : null}
       <div class="kv"><span>떠안은 카드</span><b>${v.pile && v.pile.length ? v.pile.map((k) => CREATURES[k][0]).join('') : '없음'}</b></div>
     </div>
     <p class="psub center">${v.last ? '마지막 판이었어요. 앞 화면을 봐 주세요.' : '곧 다음 판이 시작돼요'}</p>
@@ -6433,7 +6673,7 @@ function PBotsReveal({ v }) {
   const correct = v.guess ? v.guess.filter((g, i) => v.revealed[i] && g === ALGOS[i].key).length : 0;
   return html`<div class="stack" style=${{ gap: '12px' }}>
     <${Kicker}>대결 2 · 정체 공개<//>
-    <h2 class="ptitle">${v.revealed.every(Boolean) ? (v.guess ? `3개 중 ${correct}개 맞혔어요` : '정체가 모두 공개됐어요') : '앞 화면에서 하나씩 열려요'}</h2>
+    <h2 class="ptitle">${v.revealed.every(Boolean) ? (v.guess ? `3개 중 ${correct}개 맞혔어요${correct && v.gpt ? ` · +${correct * v.gpt}점` : ''}` : '정체가 모두 공개됐어요') : '앞 화면에서 하나씩 열려요'}</h2>
     ${ALGOS.map((al, i) => {
       const open = v.revealed[i];
       const ok = v.guess && v.guess[i] === al.key;
@@ -6610,16 +6850,21 @@ function PSurprise({ v }) {
 }
 
 function PFinal({ v }) {
+  const sc = v.sc;
+  const rk = v.rk;
+  useEffect(() => { if (v.podium && rk && rk.rank <= 3) fireConfetti(2600); }, [v.podium]);
+  const md = rk ? (rk.rank === 1 ? '🥇' : rk.rank === 2 ? '🥈' : rk.rank === 3 ? '🥉' : '🎉') : '🎉';
+  const row = (label, val, sub) => html`<div class="kv"><span>${label}${sub ? html`<span class="kvsub">${sub}</span>` : null}</span><b class="num">${val}</b></div>`;
   return html`<div class="stack" style=${{ gap: '12px' }}>
-    <div class="center" style=${{ paddingTop: '8px' }}><div class="bigemoji anim-pop">🎉</div></div>
-    <h2 class="ptitle center">오늘 내 기록</h2>
+    <div class="center" style=${{ paddingTop: '8px' }}><div class="bigemoji anim-pop" key=${v.podium ? 'p' : 'd'}>${md}</div></div>
+    <h2 class="ptitle center">${rk ? html`종합 <em>${rk.rank}등</em> · ${nf(rk.total)}점` : '오늘 내 기록'}</h2>
+    ${rk ? html`<p class="psub center">${rk.of}명 중 ${rk.rank}등이에요${v.podium ? '' : ' · 앞 화면을 봐 주세요'}</p>` : null}
     <div class="pcard">
-      ${v.pd ? html`<div class="kv"><span>대결 1 · 1차</span><b class="num">${v.pd[0] === null ? '–' : nf(v.pd[0]) + '점'}</b></div><div class="kv"><span>대결 1 · 2차</span><b class="num">${v.pd[1] === null ? '–' : nf(v.pd[1]) + '점'}</b></div>` : null}
-      ${v.bluff !== undefined ? html`<div class="kv"><span>보너스 · 믿을까 말까</span><b class="num">${nf(v.bluff)}점</b></div>` : null}
-      ${v.bots ? html`${ALGOS.map((al, i) => html`<div class="kv"><span>대결 2 · ${al.emoji} ${al.name}</span><b class="num">${nf(v.bots.score[i])}점</b></div>`)}
-        <div class="kv"><span>정체 맞히기</span><b class="num">${v.bots.correct === null ? '–' : v.bots.correct + '/3'}</b></div>` : null}
-      ${v.bet ? html`<div class="kv"><span>대결 2 · 우승 예측</span><b class="num">${v.bet.ok ? '⭕ +' + v.bet.pts + '점' : '❌ 0점'}</b></div>` : null}
-      ${v.pgg !== undefined ? html`<div class="kv"><span>공공재 게임</span><b class="num">🪙 ${fmt1(v.pgg)}</b></div>` : null}
+      ${v.pd ? row('대결 1', `${nf(sc.pd)}점`, `1차 ${v.pd[0] === null ? '–' : nf(v.pd[0])} · 2차 ${v.pd[1] === null ? '–' : nf(v.pd[1])}`) : null}
+      ${v.bluff !== undefined ? row('보너스 · 믿을까 말까', `${nf(sc.bluff)}점`) : null}
+      ${v.bots ? row('대결 2 · 알고리즘', `${nf(sc.bots)}점`, `대결 ${nf(v.botsGame)} · 정체 ${v.bots.correct === null ? '–' : v.bots.correct + '/3'}${v.bet ? ` · 예측 ${v.bet.ok ? '⭕' : '❌'}` : ''}`) : null}
+      ${v.pgg !== undefined ? row('공공재 게임', `${nf(sc.pgg)}점`, `🪙 ${fmt1(v.pgg)} (코인 ${v.cpp}개 = 1점)`) : null}
+      ${rk ? row(html`<b>총점</b>`, `${nf(sc.total)}점`) : null}
     </div>
     <p class="psub center">끝까지 함께해 줘서 고마워요.</p>
   </div>`;
