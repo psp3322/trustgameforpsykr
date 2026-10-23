@@ -100,6 +100,13 @@ em { font-style: normal; color: var(--rust); }
 .netdot.up { background: var(--green); }
 .netdot.connecting { background: var(--amber); }
 .hmain { padding: .6em 2.4em 1em; min-height: 0; overflow: hidden; position: relative; }
+/* 진행자 화면: 제목은 그대로 두고 그 아래 내용만 --k 배 키운다 */
+.host { --k: 1.22; }
+.hmain { font-size: calc(var(--k) * 1em); padding: calc(.6em / var(--k)) calc(2.4em / var(--k)) calc(1em / var(--k)); }
+.hmain .h-title { font-size: calc(3.1em / var(--k)); }
+.hmain .h-title.sm { font-size: calc(2.4em / var(--k)); }
+.hmain .headline { font-size: calc(2.3em / var(--k)); }
+.hmain .kicker { font-size: calc(.78em / var(--k)); }
 .h-title { font-size: 3.1em; line-height: 1.12; font-weight: 800; letter-spacing: -.035em; margin: .25em 0 .2em; }
 .h-title.sm { font-size: 2.4em; }
 .h-sub { font-size: 1.2em; color: var(--ink2); margin: 0; line-height: 1.5; font-weight: 500; }
@@ -540,6 +547,18 @@ button.scorechip { font: inherit; font-weight: 800; font-size: 14px; color: var(
 .sh-row .av { font-size: 22px; }
 .sh-row .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .kvsub { display: block; font-size: 12px; color: var(--ink3); font-weight: 600; margin-top: 2px; }
+
+/* 우승 예측: 카드를 낮게, 건 사람은 한 줄로 */
+.algo.betcard { min-height: 0; padding: 1.2em 1.2em 1.4em; gap: .6em; }
+.betwho { display: flex; align-items: center; gap: 1.2em; flex-wrap: wrap; margin-top: .6em; }
+/* 보너스 판 화면은 카드가 많아서 아래 줄들을 조금 촘촘하게 */
+.bplay { gap: .7em; }
+.bplay .bgroups { margin-top: .6em; }
+.bplay .statline { margin-top: .2em; }
+.bplay .brank { font-size: .85em; margin-top: 0; }
+.bplay .trial { padding: .55em .85em; gap: .3em; }
+.bplay .bgroup { padding: .9em 1.1em; gap: .55em; }
+.vbar .vl { word-break: keep-all; }
 
 </style>
 </head>
@@ -5424,7 +5443,7 @@ function BluffRound({ host }) {
   const rightN = xs.filter((x) => (x.judge === 'B') === (x.claim === x.card)).length;
   const labels = bluffLabels(R.groups);
   const last = B.round >= B.rounds - 1;
-  return html`<div class="stack">
+  return html`<div class="stack bplay">
     <div class="hrow">
       <div>
         <${Kicker}>1막 · 보너스 · 믿을까 말까<//>
@@ -5438,7 +5457,7 @@ function BluffRound({ host }) {
         ${!revealed && B.deadline ? html`<${Ring} left=${Math.max(0, B.deadline - t)} total=${S.settings.bluffTimer * 1000} size=${ringPx()} />` : null}
       </div>
     </div>
-    <div class="bgroups">${R.groups.map((g, i) => html`<${BluffGroupCard} key=${B.round + '-' + i + (revealed ? 'r' : 'p')} S=${S} g=${g} R=${R} revealed=${revealed} label=${labels[i]} />`)}</div>
+    <div class="bgroups" style=${{ gridTemplateColumns: `repeat(${clamp(R.groups.length, 1, 4)}, minmax(0, 1fr))` }}>${R.groups.map((g, i) => html`<${BluffGroupCard} key=${B.round + '-' + i + (revealed ? 'r' : 'p')} S=${S} g=${g} R=${R} revealed=${revealed} label=${labels[i]} />`)}</div>
     ${!revealed && B.round === 0 ? html`<div class="bplay-pay"><${BluffPayoff} /><div class="note">카드 이름만 말하면 돼요.<br />못 들었으면 다시 말해 달라고 하세요.</div></div>` : null}
     ${!revealed && B.round > 0 ? html`<${BluffRankRow} host=${host} label="보너스 순위" />` : null}
     ${revealed && xs.length ? html`<div class="statline anim-fade">
@@ -5612,17 +5631,19 @@ function BetBoard({ host }) {
     <${Kicker}>2막 · 대결 2 · 우승 예측<//>
     <h1 class="h-title sm">어떤 알고리즘이 <em>이길까요?</em></h1>
     <p class="h-sub">셋이 서로 10판씩 붙어요. 📱 이길 것 같은 알고리즘을 골라 주세요. 맞히면 ${host.betWin}점이에요.</p>
-    <div class="algos">${ALGOS.map((al) => html`<div class="algo card tone-${al.tone}" key=${al.key}>
-      <div class="orb">${al.emoji}</div>
+    <div class="algos">${ALGOS.map((al) => html`<div class="algo card betcard tone-${al.tone}" key=${al.key}>
+      <div class="orb small">${al.emoji}</div>
       <div><div class="an">${al.no} ${al.name}</div><div class="en">${al.en}</div></div>
       <div class="desc">${al.desc}</div>
     </div>`)}</div>
-    <div class="statline"><span>걸었어요 <span class="num">${n}/${ids.length}</span></span></div>
-    <div class="masks">${ids.map((pid) => {
-      const p = S.players[pid];
-      const ok = !!bets[pid];
-      return html`<div class="mask ${ok ? 'done' : 'wait'}" key=${pid} title=${p.name}>${p.avatar}${ok ? html`<span class="ok">✓</span>` : null}</div>`;
-    })}</div>
+    <div class="betwho">
+      <span class="statline" style=${{ margin: 0 }}>걸었어요 <span class="num">${n}/${ids.length}</span></span>
+      <div class="masks" style=${{ margin: 0 }}>${ids.map((pid) => {
+        const p = S.players[pid];
+        const ok = !!bets[pid];
+        return html`<div class="mask ${ok ? 'done' : 'wait'}" key=${pid} title=${p.name}>${p.avatar}${ok ? html`<span class="ok">✓</span>` : null}</div>`;
+      })}</div>
+    </div>
   </div>`;
 }
 
