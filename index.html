@@ -4860,11 +4860,10 @@ function HostLobby({ host, url }) {
   return html`<div class="lobby">
     <section>
       <${Kicker}>신뢰 게임 · 입장<//>
-      <h1 class="h-title">QR 찍고<br /><em>들어와요</em></h1>
-      <p class="h-sub">닉네임만 정하면 끝이에요.<br />시작하면 화면이 자동으로 넘어가요.</p>
+      <h1 class="h-title">QR 찍고<br /><em>닉네임</em> 설정해 주세요</h1>
       ${ids.length
         ? html`<div class="chips">${ids.map((pid) => html`<${PlayerChip} key=${pid} host=${host} pid=${pid} />`)}</div>`
-        : html`<div class="empty-note">아직 아무도 없어요. 오른쪽 QR을 찍어 주세요.</div>`}
+        : html`<div class="empty-note">아직 아무도 없어요.</div>`}
     </section>
     <section class="lobby-right card">
       <${QR} text=${url} size="min(25em, 50vh)" />
