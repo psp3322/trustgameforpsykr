@@ -254,8 +254,51 @@ em { font-style: normal; color: var(--rust); }
 .surprise .gift { font-size: 7em; line-height: 1; }
 .confetti { position: fixed; inset: 0; pointer-events: none; z-index: 50; }
 
+/* 보너스 · 믿을까 말까 */
+.payoff th.corner { font-size: .68em; color: var(--ink3); white-space: nowrap; }
+.bintro { display: grid; grid-template-columns: auto minmax(0, auto); justify-content: start; gap: 2em; align-items: start; }
+.bintro .payoff-wrap { margin-top: 0; }
+.bintro .cbox { padding: 1.4em 1.8em; min-width: 26em; }
+.bgl { display: flex; flex-direction: column; gap: .75em; }
+.bgl .row { display: flex; align-items: center; gap: .55em; flex-wrap: wrap; font-weight: 700; font-size: 1.3em; }
+.bgl .n { color: var(--ink3); font-size: .66em; font-weight: 700; min-width: 3.6em; }
+.bgl .who { display: inline-flex; align-items: center; gap: .3em; background: var(--gray-soft); border-radius: 999px; padding: .3em .9em .3em .55em; }
+.bgl .arr, .trial .arr { color: var(--ink3); font-weight: 800; }
+.bgroups { display: grid; grid-template-columns: repeat(auto-fit, minmax(24em, 1fr)); gap: 1.1em; margin-top: 1.2em; align-items: start; }
+.bgroup { padding: 1.1em 1.2em; display: flex; flex-direction: column; gap: .7em; }
+.bgroup .tag { font-size: .72em; color: var(--ink3); font-weight: 600; text-align: center; }
+.bseats { display: flex; justify-content: space-around; gap: .6em; }
+.bst { display: flex; gap: .3em; justify-content: center; }
+.bst span { font-size: .78em; font-weight: 700; padding: .2em .6em; border-radius: 99px; background: var(--gray-soft); color: var(--ink3); white-space: nowrap; }
+.bplay-pay { margin-top: 1.6em; display: flex; align-items: center; gap: 1.6em; }
+.bplay-pay .payoff { font-size: .95em; }
+.bplay-pay .note { color: var(--ink2); font-size: 1em; line-height: 1.6; font-weight: 500; }
+.bst span.on { background: var(--green-soft); color: var(--green); }
+.trial { border-radius: 14px; padding: .7em .9em; background: var(--tone-soft); display: flex; flex-direction: column; gap: .4em; }
+.trial .tt { display: flex; justify-content: space-between; align-items: center; gap: .6em; font-weight: 700; font-size: .9em; }
+.trial .tt .who { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.trial .tt b { color: var(--tone); font-size: 1.15em; white-space: nowrap; }
+.trial .tm { display: flex; flex-wrap: wrap; gap: .4em; align-items: center; font-size: .85em; font-weight: 600; }
+.trial .tm .cl { font-size: 1.15em; font-weight: 800; }
+.trial .tm .pill { background: rgba(255, 255, 255, .7); }
+.trial .tm .pill.green { color: var(--green); }
+.trial .tm .pill.red { color: var(--red); }
+.trial .tl { font-weight: 800; color: var(--tone); margin-left: auto; }
+.bfact { display: grid; grid-template-columns: 8.2em minmax(0, 1fr); gap: 1em; align-items: center; padding: .7em 0; border-bottom: 1px solid var(--line); font-size: .95em; line-height: 1.45; font-weight: 500; }
+.bfact:last-of-type { border-bottom: none; }
+.bfact .big { font-size: 2.2em; font-weight: 800; color: var(--rust); letter-spacing: -.03em; line-height: 1.1; }
+.bfact .big.sm { font-size: 1.45em; }
+.bfact .cite { color: var(--ink3); font-size: .82em; font-weight: 600; margin-top: .2em; }
+.bawards { display: flex; gap: .8em; flex-wrap: wrap; }
+.bawards .pill { font-size: 1.05em; padding: .5em 1.1em; }
+.bround { margin-top: 1.3em; padding-top: 1em; border-top: 1px solid var(--line); color: var(--ink2); font-weight: 600; font-size: .9em; display: flex; flex-wrap: wrap; gap: .55em; align-items: center; }
+.bround b { color: var(--ink); font-size: 1.15em; }
+.bround .arr { color: var(--ink3); }
+.hbar-row .track { position: relative; }
+.hbar-row .track .mk { position: absolute; top: 0; bottom: 0; width: 3px; margin-left: -1.5px; background: var(--ink); opacity: .5; z-index: 1; }
+
 /* 최종 */
-.finals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2em; margin-top: 1.4em; }
+.finals { display: grid; grid-template-columns: repeat(auto-fit, minmax(12em, 1fr)); gap: 1.2em; margin-top: 1.4em; }
 .fbox { padding: 1.3em 1.4em; display: flex; flex-direction: column; gap: .9em; }
 .fbox h4 { margin: 0; font-size: 1em; }
 .fbox .q { color: var(--ink3); font-size: .8em; font-weight: 600; }
@@ -371,6 +414,37 @@ details.pay summary::-webkit-details-marker { display: none; }
 .wavebtn { border: 1.5px solid var(--line2); background: #fff; border-radius: 99px; padding: 12px 20px; font-size: 16px; font-weight: 700; }
 .wavebtn .h { display: inline-block; transform-origin: 70% 80%; }
 .wavebtn:active .h { animation: wave .6s; }
+
+/* 학생 화면 · 믿을까 말까 */
+.partner .face.two { font-size: 17px; letter-spacing: -3px; }
+.bstep { font-size: 13px; font-weight: 800; color: var(--rust); margin-bottom: 10px; }
+.mycard { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 14px; background: var(--rust-soft); margin-bottom: 12px; }
+.mycard .e { font-size: 44px; line-height: 1; }
+.mycard b { font-size: 21px; font-weight: 800; }
+.mycard .mk { font-size: 12px; font-weight: 700; color: var(--rust-ink); }
+.cgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+.cbtn { position: relative; border: 1.5px solid var(--line2); background: #fff; border-radius: 14px; padding: 9px 4px 8px; display: flex; flex-direction: column; align-items: center; gap: 2px; font-weight: 700; font-size: 14px; transition: transform .12s; }
+.cbtn:active { transform: scale(.96); }
+.cbtn .e { font-size: 28px; line-height: 1.15; }
+.cbtn.real { border-color: var(--rust); }
+.cbtn .tg { position: absolute; top: -8px; right: -3px; font-style: normal; font-size: 10px; font-weight: 800; background: var(--rust); color: #fff; border-radius: 6px; padding: 1px 5px; }
+.cbtn.sel { background: var(--ink); color: #fff; border-color: var(--ink); }
+.bubble { background: var(--gray-soft); border-radius: 18px; padding: 12px 14px 14px; text-align: center; margin-bottom: 8px; }
+.bubble.in { background: var(--yellow-soft); }
+.bubble .bq { font-size: 13px; font-weight: 700; color: var(--ink2); }
+.bubble .be { font-size: 40px; line-height: 1.15; margin-top: 6px; }
+.bubble .bt { font-size: 24px; font-weight: 900; letter-spacing: -.02em; }
+.bnote { font-size: 13px; font-weight: 700; color: var(--ink2); text-align: center; }
+.bnote.lie { color: var(--rust-ink); }
+.bres { text-align: left; padding: 14px 16px; }
+.bres .bh { font-size: 12px; font-weight: 800; color: var(--ink2); }
+.bres .br1 { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 4px; }
+.bres .br1 .t { margin: 0; font-size: 19px; }
+.bres .br1 .pts { margin: 0; font-size: 30px; }
+.bres .e1 { display: inline-block; }
+.bres .d { margin-top: 6px; line-height: 1.45; }
+/* 한국어 문장이 '골/라요'처럼 낱글자에서 끊기지 않게 */
+.psub, .h-sub, .bres .d, .bnote, .bfact { word-break: keep-all; overflow-wrap: anywhere; }
 
 @media (max-width: 360px) {
   .ptitle { font-size: 22px; }
@@ -2767,6 +2841,10 @@ const DEFAULTS = {
   pggTimer: 30,          // 공공재 제한시간(초)
   pggNextDelay: 7,       // 공공재 자동 진행 대기(초)
   jellyTarget: 50,       // 서프라이즈 게이지 목표(%)
+  bluffOn: true,         // 대결 1 다음에 보너스 게임(믿을까 말까) 넣기
+  bluffRounds: 4,        // 보너스 게임 판 수 (한 판에 모두 한 번씩 말하고 한 번씩 판단)
+  bluffTimer: 40,        // 보너스 게임 제한시간(초). 0이면 표시 안 함
+  bluffNextDelay: 8,     // 보너스 게임 자동 진행 대기(초)
 };
 
 /* ---------- 2. 작은 도구들 ---------- */
@@ -2930,6 +3008,51 @@ function echoDemo(generous, rounds = 10) {
     sa += pa; sb += pb;
   }
   return { A, B, sa, sb };
+}
+
+/* ---------- 보너스 게임 · 믿을까 말까 ---------- */
+// 카드 그림. 오래된 노트북·폰에서도 보이는 이모지만 쓴다 (🪳 같은 최신 이모지는 윈도우 10에서 네모로 나온다)
+const CREATURES = [
+  ['🦇', '박쥐'], ['🕷️', '거미'], ['🐀', '쥐'], ['🦂', '전갈'], ['🐍', '뱀'], ['🐌', '달팽이'],
+];
+const otherCreature = (c) => (c + 1 + Math.floor(Math.random() * (CREATURES.length - 1))) % CREATURES.length;
+// 말한 사람 / 들은 사람: 참말을 믿으면 +2/+2, 거짓말을 믿으면 +3/−1, 의심하면 0/0 (대결 1 보상표와 같은 숫자)
+const bluffPay = (honest, judge) => (judge === 'B' ? (honest ? [2, 2] : [3, -1]) : [0, 0]);
+
+// 조 짜기: 둘씩, 홀수면 한 조만 셋. 대결 1에서 덜 만난 사람끼리 먼저 묶는다 (w: pairKey -> 만난 무게)
+function bluffGroups(ids, w) {
+  if (!ids.length) return [];
+  if (ids.length === 1) return [[ids[0], BOT]];
+  const cut = (arr) => {
+    const out = [];
+    let i = 0;
+    if (arr.length % 2) { out.push(arr.slice(0, 3)); i = 3; }
+    for (; i < arr.length; i += 2) out.push(arr.slice(i, i + 2));
+    return out;
+  };
+  const cost = (gs) => sum(gs.map((g) => {
+    let c = 0;
+    for (let i = 0; i < g.length; i++) for (let j = i + 1; j < g.length; j++) c += w[pairKey(g[i], g[j])] || 0;
+    return c;
+  }));
+  let best = null;
+  let bestCost = Infinity;
+  for (let t = 0; t < 400 && bestCost > 0; t++) {
+    const gs = cut(shuffle(ids));
+    const c = cost(gs);
+    if (c < bestCost) { bestCost = c; best = gs; }
+  }
+  return best;
+}
+
+// 한 판의 말하기 방향 [말하는 사람, 듣는 사람]. 둘이면 서로, 셋이면 돌아가며 (판마다 방향을 바꿔 셋 모두와 주고받는다)
+function bluffLinks(group, r) {
+  if (group.length === 2) return [[group[0], group[1]], [group[1], group[0]]];
+  if (group.length === 3) {
+    const [a, b, c] = group;
+    return r % 2 === 0 ? [[a, b], [b, c], [c, a]] : [[a, c], [c, b], [b, a]];
+  }
+  return [];
 }
 
 const ANIMALS = [
@@ -3120,6 +3243,7 @@ function createHost(params, net) {
       order: [],
       stage: 'lobby',
       pd: null,
+      bluff: null,
       bots: null,
       pgg: null,
       log: [],
@@ -3201,6 +3325,11 @@ function createHost(params, net) {
     p.kicked = true;
     // 진행 중인 결정은 기본값으로 채워지도록 둔다
     if (S.stage === 'pd' && S.pd && S.pd.phase === 'choose') maybeRevealPD();
+    if (S.stage === 'bluff' && S.bluff && S.bluff.phase === 'play') {
+      // 나간 사람이 아직 말을 안 골랐으면 진짜 카드 그대로 말한 걸로 채워서, 들을 사람이 기다리지 않게 한다
+      bluffRound().trials.forEach((t) => { if (t.from === pid && t.claim === null) { t.claim = t.card; t.fc = true; } });
+      maybeRevealBluff();
+    }
     if (S.stage === 'pgg' && S.pgg && S.pgg.phase === 'contrib') maybeRevealContrib();
     if (S.stage === 'pgg' && S.pgg && S.pgg.phase === 'punish') maybeRevealPunish();
     changed();
@@ -3315,6 +3444,160 @@ function createHost(params, net) {
       S.pd.phase = 'end';
       S.pd.nextAt = null;
     }
+  }
+
+  /* ---------- 보너스 · 믿을까 말까 ---------- */
+  // 한 판마다 모두가 한 번 말하고(카드를 참말이나 거짓말로) 한 번 듣는다(믿을지 의심할지).
+  // trial = { from, to, card, claim, judge, fc(말 자동), fj(판단 자동), pf, pt }
+  const bluffRound = () => S.bluff.hist[S.bluff.round];
+  const alive = (pid) => pid !== BOT && !!P(pid) && !P(pid).kicked;
+  const afterPD = () => (set().bluffOn ? startBluff() : startBots());
+
+  function pdMetWeights() {
+    // 대결 1에서 만난 짝. 2차(같은 상대와 여러 판)는 더 무겁게 쳐서 새 얼굴과 붙게 한다
+    const w = {};
+    if (!S.pd) return w;
+    [1, 2].forEach((k) => {
+      const part = S.pd.parts[k];
+      if (!part) return;
+      part.schedule.forEach((m) => m.forEach(([a, b]) => {
+        if (a === BOT || b === BOT) return;
+        const key = pairKey(a, b);
+        w[key] = (w[key] || 0) + (k === 2 ? 3 : 1);
+      }));
+    });
+    return w;
+  }
+  function startBluff() {
+    S.stage = 'bluff';
+    const members = activePids();
+    S.bluff = {
+      phase: 'intro', round: 0, rounds: set().bluffRounds,
+      groups: bluffGroups(members, pdMetWeights()), members, hist: [],
+      scores: Object.fromEntries(members.map((p) => [p, 0])), deadline: null, nextAt: null,
+    };
+  }
+  function liveGroup(g) {
+    // 나간 사람을 빼고 다시 묶는다. 혼자 남으면 알고리즘이 짝이 된다
+    const humans = g.filter(alive);
+    if (!humans.length) return null;
+    return humans.length === 1 ? [humans[0], BOT] : humans;
+  }
+  function bluffStartRound() {
+    const B = S.bluff;
+    const groups = B.groups.map(liveGroup).filter(Boolean);
+    const trials = [];
+    groups.forEach((g) => bluffLinks(g, B.round).forEach(([from, to]) => {
+      const card = Math.floor(Math.random() * CREATURES.length);
+      const t = { from, to, card, claim: null, judge: null };
+      if (from === BOT) t.claim = Math.random() < 0.4 ? otherCreature(card) : card;
+      trials.push(t);
+    }));
+    B.hist[B.round] = { idx: B.round, groups, trials };
+    B.phase = 'play';
+    B.deadline = set().bluffTimer ? now() + set().bluffTimer * 1000 : null;
+    B.nextAt = null;
+  }
+  function bluffPending() {
+    // 아직 말을 안 골랐거나 판단을 안 한 사람
+    const out = new Set();
+    bluffRound().trials.forEach((t) => {
+      if (t.claim === null && alive(t.from)) out.add(t.from);
+      if (t.judge === null && alive(t.to)) out.add(t.to);
+    });
+    return [...out];
+  }
+  function bluffClaim(pid, r, c) {
+    const B = S.bluff;
+    if (S.stage !== 'bluff' || !B || B.phase !== 'play' || B.round !== r) return;
+    const t = bluffRound().trials.find((x) => x.from === pid);
+    const k = Number(c);
+    if (!t || t.claim !== null || !Number.isInteger(k) || k < 0 || k >= CREATURES.length) return;
+    t.claim = k;
+    maybeRevealBluff();
+  }
+  function bluffJudge(pid, r, j) {
+    const B = S.bluff;
+    if (S.stage !== 'bluff' || !B || B.phase !== 'play' || B.round !== r) return;
+    const t = bluffRound().trials.find((x) => x.to === pid);
+    // 말한 사람이 고르기 전에는 판단할 수 없다
+    if (!t || t.claim === null || t.judge !== null || (j !== 'B' && j !== 'D')) return;
+    t.judge = j;
+    maybeRevealBluff();
+  }
+  function maybeRevealBluff() {
+    if (S.bluff.phase === 'play' && bluffPending().length === 0) bluffReveal();
+  }
+  function bluffReveal() {
+    const B = S.bluff;
+    const R = bluffRound();
+    const nm = (k) => CREATURES[k][1];
+    R.trials.forEach((t) => {
+      if (t.claim === null) { t.claim = t.card; t.fc = true; }
+      if (t.judge === null) {
+        if (t.to === BOT) t.judge = Math.random() < 0.6 ? 'B' : 'D';
+        else { t.judge = 'D'; t.fj = true; }
+      }
+      const honest = t.claim === t.card;
+      const [pf, pt] = bluffPay(honest, t.judge);
+      t.pf = pf;
+      t.pt = pt;
+      const said = `${nm(t.claim)}(${honest ? '참말' : '거짓말 · 카드 ' + nm(t.card)})`;
+      const heard = t.judge === 'B' ? '믿음' : '의심';
+      if (t.from !== BOT) {
+        B.scores[t.from] = (B.scores[t.from] || 0) + pf;
+        addLog({ stage: '보너스', part: '믿을까 말까 · 말하기', round: B.round + 1, player: humanName(t.from), choice: said, other: humanName(t.to), otherChoice: heard, payoff: pf, forced: t.fc ? 'Y' : '' });
+      }
+      if (t.to !== BOT) {
+        B.scores[t.to] = (B.scores[t.to] || 0) + pt;
+        addLog({ stage: '보너스', part: '믿을까 말까 · 듣기', round: B.round + 1, player: humanName(t.to), choice: heard, other: humanName(t.from), otherChoice: said, payoff: pt, forced: t.fj ? 'Y' : '' });
+      }
+    });
+    B.phase = 'reveal';
+    B.deadline = null;
+    const last = B.round >= B.rounds - 1;
+    B.nextAt = set().autoNext && !last && !S.paused ? now() + set().bluffNextDelay * 1000 : null;
+  }
+  function bluffNext() {
+    const B = S.bluff;
+    B.nextAt = null;
+    if (B.round < B.rounds - 1) {
+      B.round++;
+      bluffStartRound();
+    } else {
+      B.phase = 'end';
+    }
+  }
+  function bluffStats() {
+    const B = S.bluff;
+    if (!B) return null;
+    // 사람끼리, 직접 고른 판단만 센다 (알고리즘 짝·시간 초과는 뺀다)
+    const real = (R) => R.trials.filter((t) => t.pf !== undefined && t.from !== BOT && t.to !== BOT && !t.fc && !t.fj);
+    const rounds = B.hist.filter(Boolean);
+    const xs = rounds.flatMap(real);
+    const rate = (a, b) => (b ? a / b : null);
+    const truths = xs.filter((t) => t.claim === t.card);
+    const lies = xs.filter((t) => t.claim !== t.card);
+    const believed = (arr) => arr.filter((t) => t.judge === 'B').length;
+    // 가장 많이 속인 사람(포커페이스)과 가장 많이 잡아낸 사람(명탐정). 한 번도 없으면 안 보여 준다
+    const top = (arr, key) => {
+      const m = {};
+      arr.forEach((t) => { m[t[key]] = (m[t[key]] || 0) + 1; });
+      const best = Math.max(0, ...Object.values(m));
+      return best ? { n: best, names: Object.keys(m).filter((p) => m[p] === best).map(humanName) } : null;
+    };
+    return {
+      poker: top(lies.filter((t) => t.judge === 'B'), 'from'),
+      detective: top(lies.filter((t) => t.judge === 'D'), 'to'),
+      n: xs.length,
+      lies: lies.length,
+      honest: rate(truths.length, xs.length),
+      believe: rate(believed(xs), xs.length),
+      accuracy: rate(truths.filter((t) => t.judge === 'B').length + lies.filter((t) => t.judge === 'D').length, xs.length),
+      truthHit: rate(believed(truths), truths.length), // 참말을 참말로 알아본 비율
+      lieHit: rate(lies.length - believed(lies), lies.length), // 거짓말을 잡아낸 비율
+      perRound: rounds.map((R) => { const ys = real(R); return { believe: rate(believed(ys), ys.length), honest: rate(ys.filter((t) => t.claim === t.card).length, ys.length) }; }),
+    };
   }
 
   /* ---------- 대결 2 · 알고리즘 ---------- */
@@ -3542,7 +3825,15 @@ function createHost(params, net) {
         if (ph === 'intro') pdStartRound();
         else if (ph === 'choose') pdReveal();
         else if (ph === 'reveal') pdNext();
-        else if (ph === 'end') { if (S.pd.cur === 1) setupPDPart(2); else startBots(); }
+        else if (ph === 'end') { if (S.pd.cur === 1) setupPDPart(2); else afterPD(); }
+        break;
+      }
+      case 'bluff': {
+        const ph = S.bluff.phase;
+        if (ph === 'intro') bluffStartRound();
+        else if (ph === 'play') bluffReveal();
+        else if (ph === 'reveal') bluffNext();
+        else if (ph === 'end') startBots();
         break;
       }
       case 'bots': {
@@ -3593,7 +3884,18 @@ function createHost(params, net) {
           return { label: '바로 공개', hint: left ? `${left}명 고민 중 · 안 고르면 협력으로 처리` : '' , soft: true };
         }
         if (ph === 'reveal') return { label: S.pd.round >= part.rounds - 1 ? `${tag} 마무리` : '다음 판' };
-        if (ph === 'end') return { label: S.pd.cur === 1 ? '2차 준비' : '대결 2로' };
+        if (ph === 'end') return { label: S.pd.cur === 1 ? '2차 준비' : set().bluffOn ? '보너스 게임으로' : '대결 2로' };
+        break;
+      }
+      case 'bluff': {
+        const B = S.bluff;
+        if (B.phase === 'intro') return { label: '보너스 게임 시작', hint: `${B.rounds}판 · 짝끼리 마주 앉기` };
+        if (B.phase === 'play') {
+          const left = bluffPending().length;
+          return { label: '바로 공개', hint: left ? `${left}명 남음 · 안 하면 참말·의심으로 처리` : '', soft: true };
+        }
+        if (B.phase === 'reveal') return { label: B.round >= B.rounds - 1 ? '결과 보기' : '다음 판' };
+        if (B.phase === 'end') return { label: '대결 2로' };
         break;
       }
       case 'bots': {
@@ -3642,7 +3944,9 @@ function createHost(params, net) {
   function secondaryActions() {
     const acts = [];
     if (S.stage === 'bots' && ['reveal', 'tourney', 'echo'].includes(S.bots.phase)) acts.push({ label: '건너뛰고 공공재로', run: () => { startPGG(); changed(); } });
-    if (S.stage === 'pd' && S.pd.phase === 'end' && S.pd.cur === 1) acts.push({ label: '2차 건너뛰기', run: () => { startBots(); changed(); } });
+    if (S.stage === 'pd' && S.pd.phase === 'end' && S.pd.cur === 1) acts.push({ label: '2차 건너뛰기', run: () => { afterPD(); changed(); } });
+    if (S.stage === 'pd' && S.pd.phase === 'end' && S.pd.cur === 2 && set().bluffOn) acts.push({ label: '건너뛰고 대결 2로', run: () => { startBots(); changed(); } });
+    if (S.stage === 'bluff' && ['intro', 'reveal'].includes(S.bluff.phase)) acts.push({ label: '건너뛰고 대결 2로', run: () => { startBots(); changed(); } });
     return acts;
   }
 
@@ -3650,6 +3954,7 @@ function createHost(params, net) {
     S.paused = false;
     if (stage === 'lobby') S.stage = 'lobby';
     else if (stage === 'pd') startPD();
+    else if (stage === 'bluff') startBluff();
     else if (stage === 'bots') startBots();
     else if (stage === 'pgg') startPGG();
     else if (stage === 'final') { S.stage = 'final'; S.finalPhase = 'data'; }
@@ -3660,9 +3965,11 @@ function createHost(params, net) {
     S.paused = !S.paused;
     if (S.paused) {
       if (S.pd) S.pd.nextAt = null;
+      if (S.bluff) S.bluff.nextAt = null;
       if (S.pgg) S.pgg.nextAt = null;
     } else {
       if (S.stage === 'pd' && S.pd.phase === 'reveal' && set().autoNext && S.pd.round < pdPart().rounds - 1) S.pd.nextAt = now() + 2500;
+      if (S.stage === 'bluff' && S.bluff.phase === 'reveal' && set().autoNext && S.bluff.round < S.bluff.rounds - 1) S.bluff.nextAt = now() + 2500;
       if (S.stage === 'pgg' && ['creveal', 'preveal'].includes(S.pgg.phase) && set().autoNext) {
         const lastA = S.pgg.part === 'A' && S.pgg.phase === 'creveal' && S.pgg.round >= pggLimit() - 1;
         const lastB = S.pgg.phase === 'preveal' && S.pgg.round >= pggLimit() - 1;
@@ -3698,6 +4005,8 @@ function createHost(params, net) {
       case 'join': addPlayer(pid, d.name, d.avatar, false); break;
       case 'wave': if (P(pid)) P(pid).wave = (P(pid).wave || 0) + 1; break;
       case 'pd': pdChoose(pid, d.k, d.r, d.c); break;
+      case 'claim': bluffClaim(pid, d.r, d.c); break;
+      case 'judge': bluffJudge(pid, d.r, d.j); break;
       case 'bot': botChoose(pid, d.a, d.r, d.c); break;
       case 'guess': botGuess(pid, d.g); break;
       case 'contrib': pggContrib(pid, d.gr, d.n); break;
@@ -3720,6 +4029,7 @@ function createHost(params, net) {
     if (p.kicked) return { ...base, screen: 'kicked' };
     if (S.stage === 'lobby') return { ...base, screen: 'lobby', n: activePids().length, wave: p.wave || 0 };
     if (S.stage === 'pd') return { ...base, ...pdView(pid) };
+    if (S.stage === 'bluff') return { ...base, ...bluffView(pid) };
     if (S.stage === 'bots') return { ...base, ...botsView(pid) };
     if (S.stage === 'pgg') return { ...base, ...pggView(pid) };
     if (S.stage === 'final' && S.finalPhase === 'surprise') return { ...base, ...surpriseView(pid) };
@@ -3766,6 +4076,53 @@ function createHost(params, net) {
     }
     const hist = pdHist(part, pid, part.rounds);
     return { screen: 'pd_end', ...common, hist, coopN: hist.filter((h) => h.m === 'C').length };
+  }
+  function whoIs(pid) {
+    if (pid === BOT) return { bot: true, name: '알고리즘', avatar: '🤖' };
+    const p = P(pid);
+    return { name: p ? p.name : '?', avatar: p ? p.avatar : '🙂', virtual: !!(p && p.virtual) };
+  }
+  function bluffView(pid) {
+    const B = S.bluff;
+    if (!B.members.includes(pid)) return { screen: 'wait', msg: '이번 게임은 이미 시작됐어요. 다음 순서부터 같이 해요.' };
+    const common = { round: B.round, rounds: B.rounds, score: B.scores[pid] || 0 };
+    if (B.phase === 'intro') {
+      const g = B.groups.find((x) => x.includes(pid)) || [];
+      return { screen: 'bluff_intro', ...common, mates: g.filter((x) => x !== pid).map(whoIs) };
+    }
+    if (B.phase === 'end') {
+      const all = B.hist.filter(Boolean).flatMap((R) => R.trials).filter((t) => t.pf !== undefined);
+      const sent = all.filter((t) => t.from === pid);
+      const got = all.filter((t) => t.to === pid);
+      const lie = (t) => t.claim !== t.card;
+      return {
+        screen: 'bluff_end', ...common,
+        played: sent.length,
+        lied: sent.filter(lie).length,
+        fooled: sent.filter((t) => lie(t) && t.judge === 'B').length,
+        caught: got.filter((t) => lie(t) && t.judge === 'D').length,
+        duped: got.filter((t) => lie(t) && t.judge === 'B').length,
+      };
+    }
+    const R = bluffRound();
+    const send = R.trials.find((t) => t.from === pid);
+    const recv = R.trials.find((t) => t.to === pid);
+    if (!send && !recv) return { screen: 'wait', msg: '다음 판부터 같이 해요.' };
+    if (B.phase === 'play') {
+      return {
+        screen: 'bluff_play', ...common, deadline: B.deadline,
+        send: send ? { to: whoIs(send.to), card: send.card, claim: send.claim } : null,
+        // 사람이 한 말은 폰에 안 띄운다. 얼굴 보고 귀로 들어야 하니까.
+        // 말을 못 하는 알고리즘과 가상 참가자(리허설용)가 한 말만 화면으로 보여 준다
+        recv: recv ? { from: whoIs(recv.from), ready: recv.claim !== null, claim: recv.from === BOT || (P(recv.from) && P(recv.from).virtual) ? recv.claim : null, judge: recv.judge } : null,
+      };
+    }
+    return {
+      screen: 'bluff_reveal', ...common, last: B.round >= B.rounds - 1,
+      send: send ? { to: whoIs(send.to), card: send.card, claim: send.claim, judge: send.judge, pay: send.pf, forced: !!send.fc } : null,
+      recv: recv ? { from: whoIs(recv.from), card: recv.card, claim: recv.claim, judge: recv.judge, pay: recv.pt, forced: !!recv.fj } : null,
+      roundPay: (send ? send.pf : 0) + (recv ? recv.pt : 0),
+    };
   }
   function botsView(pid) {
     const B = S.bots;
@@ -3823,6 +4180,7 @@ function createHost(params, net) {
     if (S.pd) {
       out.pd = [1, 2].map((k) => (S.pd.parts[k] && S.pd.parts[k].scores[pid] !== undefined ? S.pd.parts[k].scores[pid] : null));
     }
+    if (S.bluff && S.bluff.scores[pid] !== undefined && S.bluff.hist.length) out.bluff = S.bluff.scores[pid];
     if (S.bots && S.bots.prog[pid]) {
       const p = S.bots.prog[pid];
       out.bots = { score: p.score.slice(), correct: p.guess ? p.guess.filter((g, i) => g === ALGOS[i].key).length : null };
@@ -3872,6 +4230,13 @@ function createHost(params, net) {
           vSchedule(`${S.sid}:pd:${S.pd.cur}:${S.pd.round}:${pid}`, rnd(700, 3500), act(pid, 'pd', { k: S.pd.cur, r: S.pd.round, c: Math.random() < (S.pd.cur === 2 ? 0.75 : 0.55) ? 'C' : 'D' }));
         }
       }
+      if (S.stage === 'bluff' && S.bluff.phase === 'play') {
+        const R = bluffRound(), r = S.bluff.round;
+        const send = R.trials.find((t) => t.from === pid);
+        const recv = R.trials.find((t) => t.to === pid);
+        if (send && send.claim === null) vSchedule(`${S.sid}:bc:${r}:${pid}`, rnd(900, 4000), act(pid, 'claim', { r, c: Math.random() < 0.6 ? send.card : otherCreature(send.card) }));
+        if (recv && recv.claim !== null && recv.judge === null) vSchedule(`${S.sid}:bj:${r}:${pid}`, rnd(1200, 4500), act(pid, 'judge', { r, j: Math.random() < 0.6 ? 'B' : 'D' }));
+      }
       if (S.stage === 'bots' && S.bots.phase === 'play') {
         const p = S.bots.prog[pid];
         if (p && p.a < 3) {
@@ -3914,6 +4279,7 @@ function createHost(params, net) {
     }
     if (!S.paused) {
       if (S.stage === 'pd' && S.pd && S.pd.phase === 'reveal' && S.pd.nextAt && t >= S.pd.nextAt) { S.pd.nextAt = null; primary(); }
+      if (S.stage === 'bluff' && S.bluff && S.bluff.phase === 'reveal' && S.bluff.nextAt && t >= S.bluff.nextAt) { S.bluff.nextAt = null; primary(); }
       if (S.stage === 'pgg' && S.pgg && ['creveal', 'preveal'].includes(S.pgg.phase) && S.pgg.nextAt && t >= S.pgg.nextAt) { S.pgg.nextAt = null; primary(); }
     }
   }
@@ -4011,6 +4377,9 @@ function createHost(params, net) {
     activePids,
     pdPart: () => (S.pd ? pdPart() : null),
     pdPending: () => (S.pd && S.pd.phase === 'choose' ? pdPending() : []),
+    bluffRound: () => (S.bluff ? bluffRound() || null : null),
+    bluffPending: () => (S.bluff && S.bluff.phase === 'play' ? bluffPending() : []),
+    bluffStats,
     pggRound: () => (S.pgg ? pggRound() : null),
     pggPendingContrib: () => (S.pgg && S.pgg.phase === 'contrib' ? pggPendingContrib() : []),
     pggPendingPunish: () => (S.pgg && S.pgg.phase === 'punish' ? pggPendingPunish() : []),
@@ -4314,7 +4683,7 @@ function LineChart({ series, xLabels, divider, dividerLabel, height = 220, width
 function HBars({ rows }) {
   return html`<div class="hbars">${rows.map((r, i) => html`<div class="hbar-row ${r.tone ? 'tone-' + r.tone : ''}">
     <div class="lab">${r.label}</div>
-    <div class="track"><div class="fill" style=${{ width: (r.value === null ? 0 : clamp(r.value, 0, 1) * 100) + '%', animationDelay: i * 0.15 + 's' }}></div></div>
+    <div class="track">${r.mark !== undefined ? html`<i class="mk" style=${{ left: r.mark * 100 + '%' }}></i>` : null}<div class="fill" style=${{ width: (r.value === null ? 0 : clamp(r.value, 0, 1) * 100) + '%', animationDelay: i * 0.15 + 's' }}></div></div>
     <div class="val num">${r.value === null ? '–' : pct(r.value)}</div>
   </div>`)}</div>`;
 }
@@ -4354,6 +4723,23 @@ function fireConfetti(ms = 3200) {
   requestAnimationFrame(step);
 }
 
+// 받침에 따라 '라고/이라고', '야/이야'
+const hasBatchim = (w) => {
+  const c = String(w || '').charCodeAt(String(w || '').length - 1);
+  return c >= 0xac00 && c <= 0xd7a3 && (c - 0xac00) % 28 !== 0;
+};
+const raGo = (w) => w + (hasBatchim(w) ? '이라고' : '라고');
+const yaEnd = (w) => w + (hasBatchim(w) ? '이야' : '야');
+
+// 보너스 게임 결과: T/L(참말·거짓말) + B/D(믿음·의심)
+const bluffKey = (t) => (t.claim === t.card ? 'T' : 'L') + t.judge;
+const BLUFF_OUT = {
+  TB: { tone: 'green', label: '🤝 믿었고, 진짜' },
+  LB: { tone: 'red', label: '😈 속았다' },
+  LD: { tone: 'yellow', label: '🕵️ 잡았다' },
+  TD: { tone: 'gray', label: '😶 괜한 의심' },
+};
+
 const CHOICE = {
   C: { emoji: '🤝', label: '협력', tone: 'green' },
   D: { emoji: '😈', label: '배신', tone: 'red' },
@@ -4369,7 +4755,7 @@ function outcomeInfo(mine, theirs) {
 /* =====================================================================
  * 진행자 화면 (프로젝터)
  * ===================================================================== */
-const STAGE_NAMES = { lobby: '대기실', pd: '대결 1 · 사람 vs 사람', bots: '대결 2 · 알고리즘', pgg: '공공재 게임', final: '오늘의 데이터' };
+const STAGE_NAMES = { lobby: '대기실', pd: '대결 1 · 사람 vs 사람', bluff: '보너스 · 믿을까 말까', bots: '대결 2 · 알고리즘', pgg: '공공재 게임', final: '오늘의 데이터' };
 
 function toggleFullscreen() {
   if (!document.fullscreenElement) document.documentElement.requestFullscreen && document.documentElement.requestFullscreen().catch(() => {});
@@ -4402,6 +4788,7 @@ function HostApp({ host, net }) {
   let main = null;
   if (S.stage === 'lobby') main = html`<${HostLobby} host=${host} url=${url} />`;
   else if (S.stage === 'pd') main = html`<${HostPD} host=${host} />`;
+  else if (S.stage === 'bluff') main = html`<${HostBluff} host=${host} />`;
   else if (S.stage === 'bots') main = html`<${HostBots} host=${host} />`;
   else if (S.stage === 'pgg') main = html`<${HostPGG} host=${host} />`;
   else if (S.stage === 'final') main = html`<${HostFinal} host=${host} />`;
@@ -4447,9 +4834,10 @@ function ControlBar({ host }) {
   const sec = host.secondaryActions();
   let nextAt = null;
   if (S.stage === 'pd' && S.pd && S.pd.nextAt) nextAt = S.pd.nextAt;
+  if (S.stage === 'bluff' && S.bluff && S.bluff.nextAt) nextAt = S.bluff.nextAt;
   if (S.stage === 'pgg' && S.pgg && S.pgg.nextAt) nextAt = S.pgg.nextAt;
-  const canPause = (S.stage === 'pd' && S.pd && S.pd.phase === 'reveal') || (S.stage === 'pgg' && S.pgg && ['creveal', 'preveal'].includes(S.pgg.phase));
-  const deadline = S.stage === 'pd' && S.pd ? S.pd.deadline : S.stage === 'pgg' && S.pgg ? S.pgg.deadline : null;
+  const canPause = (S.stage === 'pd' && S.pd && S.pd.phase === 'reveal') || (S.stage === 'bluff' && S.bluff && S.bluff.phase === 'reveal') || (S.stage === 'pgg' && S.pgg && ['creveal', 'preveal'].includes(S.pgg.phase));
+  const deadline = S.stage === 'pd' && S.pd ? S.pd.deadline : S.stage === 'bluff' && S.bluff ? S.bluff.deadline : S.stage === 'pgg' && S.pgg ? S.pgg.deadline : null;
   const expired = deadline && t > deadline;
   return html`<footer class="hbar">
     <div class="status">
@@ -4622,6 +5010,165 @@ function PDEnd({ host }) {
       </div>
       <div class="card cbox"><h4>판별 협력률</h4>
         <${LineChart} series=${[{ color: COL.green, pts: [...st.series1, ...st.series2] }]} xLabels=${xl} divider=${st.series1.length} dividerLabel="또 만남" />
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---------- 보너스 · 믿을까 말까 ---------- */
+function HostBluff({ host }) {
+  const B = host.S.bluff;
+  if (B.phase === 'intro') return html`<${BluffIntro} host=${host} />`;
+  if (B.phase === 'end') return html`<${BluffEnd} host=${host} />`;
+  return html`<${BluffRound} host=${host} />`;
+}
+
+function BluffPayoff() {
+  return html`<table class="payoff">
+    <thead><tr><th class="corner">말한 사람 / 들은 사람</th><th>🙆 믿어요</th><th>🤨 의심해요</th></tr></thead>
+    <tbody>
+      <tr><th>참말</th>
+        <td class="cc"><div class="v"><span class="g">+2</span> / <span class="g">+2</span></div><div class="s">서로 이득</div></td>
+        <td><div class="v"><span class="n">0</span> / <span class="n">0</span></div><div class="s">괜한 의심</div></td></tr>
+      <tr><th>거짓말</th>
+        <td><div class="v"><span class="g">+3</span> / <span class="r">−1</span></div><div class="s">속인 사람만 이득</div></td>
+        <td><div class="v"><span class="n">0</span> / <span class="n">0</span></div><div class="s">거짓말을 잡음</div></td></tr>
+    </tbody>
+  </table>`;
+}
+
+// 조 이름: 둘이면 '짝 1', 셋이면 '3명 조'
+function bluffLabels(groups) {
+  let k = 0;
+  return groups.map((g) => (g.length === 3 ? '3명 조 · 돌아가며' : `짝 ${++k}`));
+}
+const bFace = (S, pid) => (pid === BOT ? '🤖' : S.players[pid] ? S.players[pid].avatar : '🙂');
+const bName = (S, pid) => (pid === BOT ? '알고리즘' : S.players[pid] ? S.players[pid].name : '?');
+
+function BluffIntro({ host }) {
+  const S = host.S;
+  const B = S.bluff;
+  const labels = bluffLabels(B.groups);
+  return html`<div class="stack anim-fade">
+    <${Kicker}>1막 · 보너스 · 믿을까 말까<//>
+    <h1 class="h-title">카드는 나만 보고, <em>말</em>로 전해요</h1>
+    <p class="h-sub">참말을 해도 되고 거짓말을 해도 돼요. 들은 사람은 믿을지 의심할지 골라요.<br />한 판에 모두 한 번씩 말하고, 한 번씩 들어요.</p>
+    <div class="bintro">
+      <div class="payoff-wrap"><${BluffPayoff} /></div>
+      <div class="card cbox">
+        <h4>짝끼리 마주 앉아 주세요 · <span class="num">${B.rounds}</span>판</h4>
+        ${B.groups.length ? html`<div class="bgl">${B.groups.map((g, i) => html`<div class="row" key=${i}>
+          <span class="n">${labels[i]}</span>
+          ${g.map((pid, j) => html`${j ? html`<span class="arr">${g.length === 2 ? '⇄' : '·'}</span>` : null}<span class="who">${bFace(S, pid)} ${bName(S, pid)}</span>`)}
+        </div>`)}</div>` : html`<div class="muted">참가자가 없어요.</div>`}
+      </div>
+    </div>
+    <p class="h-sub" style=${{ fontSize: '1em' }}>📱 폰에 내 카드가 뜨면 뭐라고 말할지 고르고, 짝의 눈을 보면서 소리 내서 말해 주세요.</p>
+  </div>`;
+}
+
+function BluffRound({ host }) {
+  const S = host.S;
+  const B = S.bluff;
+  const R = host.bluffRound();
+  const t = useNow(250);
+  const revealed = B.phase === 'reveal';
+  const pending = host.bluffPending();
+  const humans = R.groups.flat().filter((p) => p !== BOT && S.players[p] && !S.players[p].kicked);
+  const doneN = humans.filter((p) => !pending.includes(p)).length;
+  const xs = revealed ? R.trials : [];
+  const rightN = xs.filter((x) => (x.judge === 'B') === (x.claim === x.card)).length;
+  const labels = bluffLabels(R.groups);
+  return html`<div class="stack">
+    <div class="hrow">
+      <div>
+        <${Kicker}>1막 · 보너스 · 믿을까 말까<//>
+        <h1 class="h-title sm">라운드 <span class="num">${B.round + 1} / ${B.rounds}</span></h1>
+        <p class="h-sub">${revealed ? '카드를 뒤집었어요. 누가 속였고, 누가 잡아냈을까요?' : '📱 말할 것을 고르고 소리 내서 말해요. 들은 말은 믿을지 의심할지 골라요.'}</p>
+      </div>
+      <div style=${{ display: 'flex', alignItems: 'center', gap: '1em' }}>
+        ${revealed
+          ? html`<div class="progress-big num anim-pop" key=${'b' + B.round}>${rightN}/${xs.length}<small>맞힘</small></div>`
+          : html`<div class="progress-big num">${doneN}/${humans.length}<small>끝냈어요</small></div>`}
+        ${!revealed && B.deadline ? html`<${Ring} left=${Math.max(0, B.deadline - t)} total=${S.settings.bluffTimer * 1000} size=${ringPx()} />` : null}
+      </div>
+    </div>
+    <div class="bgroups">${R.groups.map((g, i) => html`<${BluffGroupCard} key=${B.round + '-' + i + (revealed ? 'r' : 'p')} S=${S} g=${g} R=${R} revealed=${revealed} label=${labels[i]} />`)}</div>
+    ${!revealed ? html`<div class="bplay-pay"><${BluffPayoff} /><div class="note">카드 이름만 말하면 돼요. 표정과 말투는 자유예요.<br />못 들었으면 다시 말해 달라고 하세요.</div></div>` : null}
+    ${revealed && xs.length ? html`<div class="statline anim-fade">
+      <span>이번 판 · 거짓말 <span class="num">${xs.filter((x) => x.claim !== x.card).length}</span>번 · 믿음 <span class="num">${xs.filter((x) => x.judge === 'B').length}</span>번 · 맞힌 판단</span>
+      <div class="meter"><i style=${{ width: pct(rightN / xs.length) }}></i></div><span class="num">${pct(rightN / xs.length)}</span>
+    </div>` : null}
+  </div>`;
+}
+
+function BluffGroupCard({ S, g, R, revealed, label }) {
+  const trials = R.trials.filter((x) => g.includes(x.from));
+  if (!revealed) {
+    return html`<div class="card bgroup">
+      <div class="tag">${label}</div>
+      <div class="bseats">${g.map((pid) => {
+        const send = trials.find((x) => x.from === pid);
+        const recv = trials.find((x) => x.to === pid);
+        const said = pid === BOT || !send || send.claim !== null;
+        const judged = pid === BOT || !recv || recv.judge !== null;
+        const done = said && judged;
+        return html`<div class="seat" key=${pid}>
+          <div class="face ${done ? 'done' : ''}">${bFace(S, pid)}${done ? html`<span class="ok">✓</span>` : null}</div>
+          <div class="nm">${bName(S, pid)}</div>
+          <div class="bst"><span class=${said ? 'on' : ''}>💬 말</span><span class=${judged ? 'on' : ''}>🤔 판단</span></div>
+        </div>`;
+      })}</div>
+    </div>`;
+  }
+  return html`<div class="card bgroup anim-flip">
+    <div class="tag">${label}</div>
+    ${trials.map((x, i) => {
+      const o = BLUFF_OUT[bluffKey(x)];
+      const honest = x.claim === x.card;
+      return html`<div class="trial tone-${o.tone}" key=${i}>
+        <div class="tt"><span class="who">${bFace(S, x.from)} ${bName(S, x.from)} <span class="arr">→</span> ${bFace(S, x.to)} ${bName(S, x.to)}</span><b class="num">${signed(x.pf)} / ${signed(x.pt)}</b></div>
+        <div class="tm">
+          <span class="cl">“${CREATURES[x.claim][0]} ${CREATURES[x.claim][1]}”</span>
+          <span class="pill ${honest ? 'green' : 'red'}">${honest ? '참말' : `거짓말 · 진짜 ${CREATURES[x.card][0]}`}</span>
+          <span class="pill">${x.judge === 'B' ? '🙆 믿음' : '🤨 의심'}</span>
+          <span class="tl">${o.label}</span>
+        </div>
+      </div>`;
+    })}
+  </div>`;
+}
+
+function BluffEnd({ host }) {
+  const st = host.bluffStats();
+  const acc = st.accuracy;
+  const good = acc !== null && acc >= 0.62;
+  const head = !st.n ? '판단이 모이지 않았어요.'
+    : good ? html`맞힌 비율 <em class="num">${pct(acc)}</em>, 눈치가 꽤 좋네요.`
+      : acc <= 0.38 ? html`맞힌 비율 <em class="num">${pct(acc)}</em>, 찍은 것보다도 못 맞혔어요.`
+        : html`맞힌 비율 <em class="num">${pct(acc)}</em>, 동전을 던져도 이 정도는 나와요.`;
+  const who = (x) => (x.names.length > 3 ? `${x.names.slice(0, 3).join(', ')} 외 ${x.names.length - 3}명` : x.names.join(', '));
+  return html`<div class="stack anim-fade">
+    <${Kicker}>1막 · 보너스 · 결과<//>
+    <h1 class="headline">${head}</h1>
+    ${st.poker || st.detective ? html`<div class="bawards">
+      ${st.poker ? html`<span class="pill rust"><span>🃏 포커페이스 <b>${who(st.poker)}</b> · ${st.poker.n}번 속임</span></span>` : null}
+      ${st.detective ? html`<span class="pill green"><span>🕵️ 명탐정 <b>${who(st.detective)}</b> · ${st.detective.n}번 잡아냄</span></span>` : null}
+    </div>` : null}
+    <div class="compare">
+      <div class="card cbox"><h4>우리 판단 <span class="num">${st.n}</span>번 · 그중 거짓말 <span class="num">${st.lies}</span>번</h4>
+        <${HBars} rows=${[
+          { label: html`<b>믿어 준 비율</b>`, value: st.believe, tone: 'green' },
+          { label: html`<b>맞힌 비율</b><br />찍으면 50%`, value: acc, tone: 'rust', mark: 0.5 },
+          { label: html`참말을<br />알아본 비율`, value: st.truthHit, tone: 'gray' },
+          { label: html`거짓말을<br />잡아낸 비율`, value: st.lieHit, tone: 'amber' },
+        ]} />
+        ${st.perRound.length >= 2 ? html`<div class="bround">판마다 믿어 준 비율 ${st.perRound.map((x, i) => html`${i ? html`<span class="arr">→</span>` : null}<b class="num">${x.believe === null ? '–' : pct(x.believe)}</b>`)}</div>` : null}
+      </div>
+      <div class="card cbox"><h4>연구에서는</h4>
+        <div class="bfact"><div class="big num">54%</div><div>참말과 거짓말을 가려낸 평균 정확도예요. 연구 206편, 2만 4천여 명의 판단을 모았어요.<div class="cite">Bond & DePaulo (2006)</div></div></div>
+        <div class="bfact"><div class="big num sm">61% · 47%</div><div>참말은 61%를 알아봤지만 거짓말은 47%만 잡아냈어요. 사람은 일단 믿고 보는 쪽으로 기울어요.<div class="cite">Bond & DePaulo (2006) · 진실 기본값 이론, Levine (2014)</div></div></div>
+        <p class="h-sub" style=${{ fontSize: '1em', marginTop: '.8em' }}>${good ? '우리는 잘 맞혔지만 보통은 이 정도예요.' : '얼굴을 보면서도 잘 못 맞혀요.'} 다음 상대는 얼굴이 아예 없어요.</p>
       </div>
     </div>
   </div>`;
@@ -4952,6 +5499,7 @@ function PGGSurprise({ host }) {
 function HostFinal({ host }) {
   if (host.S.finalPhase === 'surprise') return html`<${PGGSurprise} host=${host} />`;
   const pdS = host.pdStats();
+  const blS = host.S.bluff && host.S.bluff.hist.length ? host.bluffStats() : null;
   const bS = host.botStats();
   const gS = host.pggStats();
   const c1 = pdS && pdS.rate1 !== null && pdS.rate2 !== null ? pdS.rate2 - pdS.rate1 : null;
@@ -4966,6 +5514,10 @@ function HostFinal({ host }) {
         <${VBars} rows=${[{ label: '1차', value: pdS ? pdS.rate1 : null, tone: 'gray' }, { label: '2차 · 같은 상대', value: pdS ? pdS.rate2 : null, tone: 'green' }]} />
         <div class="muted" style=${{ fontSize: '.78em' }}>협력을 고른 비율</div>
       </div>
+      ${blS ? html`<div class="card fbox"><div class="q">보너스 · 믿을까 말까</div><h4>말만 듣고 가려낼까?</h4>
+        <${VBars} rows=${[{ label: '믿어 준 비율', value: blS.believe, tone: 'green' }, { label: '맞힌 비율', value: blS.accuracy, tone: 'rust' }]} />
+        <div class="muted" style=${{ fontSize: '.78em' }}>찍으면 50% · 연구 평균 54%</div>
+      </div>` : null}
       <div class="card fbox"><div class="q">대결 2</div><h4>상대가 알고리즘이면?</h4>
         <${VBars} rows=${ALGOS.map((al, i) => ({ label: `${al.emoji} ${al.name}`, value: bS ? bS[i].coop : null, tone: al.tone }))} />
         <div class="muted" style=${{ fontSize: '.78em' }}>그 알고리즘에게 협력한 비율</div>
@@ -5008,13 +5560,15 @@ function SettingsModal({ host, url }) {
       <p class="muted" style=${{ margin: 0, fontSize: '.85em' }}>판 수 같은 설정은 다음 단계를 시작할 때부터 적용돼요. 단축키: Space 다음 · Q QR · P 멈춤 · F 전체화면 · S 설정</p>
 
       <h5>단계 바로가기</h5>
-      <div class="btnrow">${['lobby', 'pd', 'bots', 'pgg', 'final'].map((st) => html`<button class="hbtn" onClick=${() => { if (confirm(`'${STAGE_NAMES[st]}'(으)로 갈까요? 지금 단계 진행은 멈춰요.`)) { host.goStage(st); host.setUI({ settings: false }); } }}>${STAGE_NAMES[st]}</button>`)}</div>
+      <div class="btnrow">${['lobby', 'pd', 'bluff', 'bots', 'pgg', 'final'].map((st) => html`<button class="hbtn" onClick=${() => { if (confirm(`'${STAGE_NAMES[st]}'(으)로 갈까요? 지금 단계 진행은 멈춰요.`)) { host.goStage(st); host.setUI({ settings: false }); } }}>${STAGE_NAMES[st]}</button>`)}</div>
 
       <h5>진행</h5>
       ${chk('autoNext', '공개 후 자동으로 다음 판', 'P 키로 언제든 멈출 수 있어요')}
       ${num('pdNextDelay', '대결 1 자동 진행 대기 (초)', null, 2, 30)}
+      ${num('bluffNextDelay', '보너스 게임 자동 진행 대기 (초)', null, 2, 30)}
       ${num('pggNextDelay', '공공재 자동 진행 대기 (초)', null, 2, 30)}
       ${num('pdTimer', '대결 1 선택 제한시간 (초)', '0이면 시계를 안 띄워요. 시간이 지나도 자동으로 넘어가진 않아요', 0, 120)}
+      ${num('bluffTimer', '보너스 게임 제한시간 (초)', '말하기와 판단을 합친 시간이에요', 0, 120)}
       ${num('pggTimer', '공공재 선택 제한시간 (초)', null, 0, 120)}
 
       <h5>대결 1 · 사람 vs 사람</h5>
@@ -5025,6 +5579,10 @@ function SettingsModal({ host, url }) {
           <option value="stranger">매 판 새 상대</option><option value="fixed">같은 상대</option>
         </select></div>
       ${chk('pd2Named', '2차에서 상대 닉네임 공개', '“또 만날 사람”이라는 느낌이 커져요')}
+
+      <h5>보너스 · 믿을까 말까</h5>
+      ${chk('bluffOn', '대결 1 다음에 넣기', '끄면 대결 1이 끝나고 바로 대결 2로 가요')}
+      ${num('bluffRounds', '판 수', '한 판에 모두 한 번씩 말하고 한 번씩 들어요', 1, 10)}
 
       <h5>대결 2 · 알고리즘</h5>
       ${num('botRounds', '알고리즘마다 판 수', null, 2, 12)}
@@ -5081,10 +5639,6 @@ function ResumePrompt({ host }) {
 /* =====================================================================
  * 학생 화면 (휴대폰)
  * ===================================================================== */
-const hasBatchim = (w) => {
-  const c = String(w || '').charCodeAt(String(w || '').length - 1);
-  return c >= 0xac00 && c <= 0xd7a3 && (c - 0xac00) % 28 !== 0;
-};
 const iyeyo = (w) => w + (hasBatchim(w) ? '이에요' : '예요');
 
 function PlayerApp({ pl }) {
@@ -5109,6 +5663,7 @@ function PlayerApp({ pl }) {
 function screenKey(v) {
   const s = v.screen;
   if (s.startsWith('pd_')) return `${s}-${v.k}-${v.round}`;
+  if (s === 'bluff_play' || s === 'bluff_reveal') return `${s}-${v.round}`;
   if (s === 'bots_play') return `${s}-${v.a}`;
   if (s.startsWith('pgg_')) return `${s}-${v.gr === undefined ? v.part : v.gr}`;
   return s;
@@ -5117,6 +5672,7 @@ function screenKey(v) {
 function PHead({ v, pl }) {
   let chip = null;
   if (v && v.screen && v.screen.startsWith('pd_') && v.screen !== 'pd_intro') chip = html`<span class="scorechip num">내 점수 ${nf(v.score)}</span>`;
+  if (v && v.screen && v.screen.startsWith('bluff_') && v.screen !== 'bluff_intro') chip = html`<span class="scorechip num">내 점수 ${nf(v.score)}</span>`;
   if (v && v.screen && v.screen.startsWith('pgg_') && v.alias) chip = html`<span class="scorechip num">${v.alias[0]} 🪙 ${fmt1(v.total)}</span>`;
   const up = pl.netUp > 0;
   return html`<header class="phead">
@@ -5180,6 +5736,10 @@ function PScreen({ v, pl }) {
     case 'pd_choose': return html`<${PPDChoose} v=${v} pl=${pl} />`;
     case 'pd_reveal': return html`<${PPDReveal} v=${v} />`;
     case 'pd_end': return html`<${PPDEnd} v=${v} />`;
+    case 'bluff_intro': return html`<${PBluffIntro} v=${v} />`;
+    case 'bluff_play': return html`<${PBluffPlay} v=${v} pl=${pl} />`;
+    case 'bluff_reveal': return html`<${PBluffReveal} v=${v} />`;
+    case 'bluff_end': return html`<${PBluffEnd} v=${v} />`;
     case 'bots_intro': return html`<${PBotsIntro} v=${v} />`;
     case 'bots_play': return html`<${PBotsPlay} v=${v} pl=${pl} />`;
     case 'bots_guess': return html`<${PBotsGuess} v=${v} pl=${pl} />`;
@@ -5328,6 +5888,170 @@ function PPDEnd({ v }) {
     <h2 class="ptitle">내 점수 <span class="num">${nf(v.score)}</span>점</h2>
     <p class="psub">${v.rounds}판 중 협력 ${v.coopN}번</p>
     <${PDHist} hist=${v.hist} />
+    <p class="psub">앞 화면을 봐 주세요 👀</p>
+  </div>`;
+}
+
+/* ---------- 보너스 · 믿을까 말까 ---------- */
+function BluffPayMini() {
+  return html`<table class="paytable">
+    <thead><tr><th>말한 / 들은</th><th>🙆 믿으면</th><th>🤨 의심하면</th></tr></thead>
+    <tbody>
+      <tr><th>참말</th><td class="cc">+2 / +2</td><td>0 / 0</td></tr>
+      <tr><th>거짓말</th><td>+3 / <span style=${{ color: COL.red }}>−1</span></td><td>0 / 0</td></tr>
+    </tbody>
+  </table>`;
+}
+
+function PBluffIntro({ v }) {
+  const m = v.mates || [];
+  const bot = m.length === 1 && m[0].bot;
+  return html`<div class="stack" style=${{ gap: '14px' }}>
+    <${Kicker}>보너스 · 믿을까 말까<//>
+    <h2 class="ptitle">카드는 나만 봐요</h2>
+    <p class="psub">내 카드를 짝에게 말로 알려 줘요. 참말을 해도 되고, 거짓말을 해도 돼요. 짝이 한 말은 믿을지 의심할지 골라요.</p>
+    <div class="pcard partner">
+      <div class="face ${m.length > 1 ? 'two' : ''}">${m.length ? m.map((x) => x.avatar).join('') : '?'}</div>
+      <div><div class="who">${m.length ? m.map((x) => x.name).join(' · ') : '짝 없음'}</div>
+        <div class="note">${bot ? '인원이 한 명이라 알고리즘이랑 해요' : m.length > 1 ? '셋이 한 조예요. 돌아가며 말하고 들어요' : '이 친구와 마주 앉아 주세요'}</div></div>
+    </div>
+    <div class="pcard"><${BluffPayMini} /></div>
+    <p class="psub center">곧 시작해요. 앞 화면을 봐 주세요 👀</p>
+  </div>`;
+}
+
+function BluffSend({ s, sel, setSel, claim, onSend }) {
+  const card = CREATURES[s.card];
+  if (claim !== null) {
+    const c = CREATURES[claim];
+    const honest = claim === s.card;
+    return html`<div class="pcard bsend anim-fade">
+      <div class="bstep">① 말하기 → ${s.to.avatar} ${s.to.name}</div>
+      <div class="bubble">
+        <div class="bq">${s.to.bot ? '알고리즘에게는 화면으로 전했어요' : s.to.virtual ? '가상 참가자에게는 화면으로 전했어요' : `${s.to.name}에게 소리 내서 말해 주세요`}</div>
+        <div class="be">${c[0]}</div>
+        <div class="bt">“이건 ${yaEnd(c[1])}.”</div>
+      </div>
+      <div class="bnote ${honest ? '' : 'lie'}">${honest ? '참말이에요.' : `거짓말이에요. 진짜는 ${card[0]} ${card[1]} 🤫`}</div>
+    </div>`;
+  }
+  return html`<div class="pcard bsend">
+    <div class="bstep">① 말하기 → ${s.to.avatar} ${s.to.name}</div>
+    <div class="mycard"><span class="e">${card[0]}</span><div><div class="mk">내 카드 · 나만 봐요</div><b>${card[1]}</b></div></div>
+    <div class="cgrid">${CREATURES.map((c, i) => html`<button class="cbtn ${sel === i ? 'sel' : ''} ${i === s.card ? 'real' : ''}" onClick=${() => setSel(i)}>
+      <span class="e">${c[0]}</span><span>${c[1]}</span>${i === s.card ? html`<i class="tg">진짜</i>` : null}
+    </button>`)}</div>
+    <button class="pbtn rust" disabled=${sel === null} onClick=${onSend}>${sel === null ? '뭐라고 말할지 골라 주세요' : `${raGo(CREATURES[sel][1])} 말하기 · ${sel === s.card ? '참말' : '거짓말'}`}</button>
+  </div>`;
+}
+
+function BluffRecv({ r, judge, onJudge }) {
+  const f = r.from;
+  let body;
+  if (judge) {
+    body = html`<div class="center anim-fade" style=${{ padding: '6px 0 2px' }}>
+      <div style=${{ fontSize: '34px' }}>${judge === 'B' ? '🙆' : '🤨'}</div>
+      <b>${judge === 'B' ? '믿기로 했어요' : '의심하기로 했어요'}</b>
+      <div class="muted" style=${{ fontSize: '13px', marginTop: '4px', fontWeight: 600 }}>다 끝나면 같이 공개돼요<span class="wait-dots"><span>.</span><span>.</span><span>.</span></span></div>
+    </div>`;
+  } else if (!r.ready) {
+    body = html`<div class="muted center" style=${{ padding: '10px 0', fontWeight: 600 }}>${f.name + (hasBatchim(f.name) ? '이' : '가')} 말할 걸 고르는 중<span class="wait-dots"><span>.</span><span>.</span><span>.</span></span></div>`;
+  } else {
+    body = html`
+      ${(f.bot || f.virtual) && r.claim !== null && r.claim !== undefined
+        ? html`<div class="bubble in"><div class="bq">${f.bot ? '🤖 알고리즘이 말했어요' : `가상 참가자 ${f.name}의 말`}</div><div class="be">${CREATURES[r.claim][0]}</div><div class="bt">“이건 ${yaEnd(CREATURES[r.claim][1])}.”</div></div>`
+        : html`<p class="psub" style=${{ margin: '0 0 10px' }}><b>${f.name}</b>의 말을 듣고 골라 주세요.<br /><span class="muted" style=${{ fontSize: '13px' }}>못 들었으면 다시 말해 달라고 하세요</span></p>`}
+      <div class="choices">
+        <button class="choice tone-green" onClick=${() => onJudge('B')}><span class="e">🙆</span><span class="l">믿어요</span><span class="s">참말이면 둘 다 +2<br />거짓말이면 나 −1</span></button>
+        <button class="choice tone-amber" onClick=${() => onJudge('D')}><span class="e">🤨</span><span class="l">의심해요</span><span class="s">참말이든 거짓말이든<br />둘 다 0</span></button>
+      </div>`;
+  }
+  return html`<div class="pcard brecv">
+    <div class="bstep">② 듣기 ← ${f.avatar} ${f.name}</div>
+    ${body}
+  </div>`;
+}
+
+function PBluffPlay({ v, pl }) {
+  const [sel, setSel] = useState(null);
+  const [sentC, setSentC] = useState(null);
+  const [sentJ, setSentJ] = useState(null);
+  const s = v.send, r = v.recv;
+  const claim = s ? (s.claim !== null && s.claim !== undefined ? s.claim : sentC) : null;
+  const judge = r ? r.judge || sentJ : null;
+  const sendClaim = () => {
+    if (sel === null || claim !== null) return;
+    setSentC(sel);
+    pl.send('claim', { r: v.round, c: sel });
+    if (navigator.vibrate) navigator.vibrate(15);
+  };
+  const sendJudge = (j) => {
+    if (judge || !r || !r.ready) return;
+    setSentJ(j);
+    pl.send('judge', { r: v.round, j });
+    if (navigator.vibrate) navigator.vibrate(15);
+  };
+  const allDone = (!s || claim !== null) && (!r || !!judge);
+  return html`<div class="stack" style=${{ gap: '12px' }}>
+    <div class="hrow" style=${{ alignItems: 'center' }}>
+      <div><${Kicker}>보너스 · 믿을까 말까<//><h2 class="ptitle">라운드 ${v.round + 1} / ${v.rounds}</h2></div>
+      ${!allDone ? html`<${Timer} deadline=${v.deadline} pl=${pl} />` : null}
+    </div>
+    ${s ? html`<${BluffSend} s=${s} sel=${sel} setSel=${setSel} claim=${claim} onSend=${sendClaim} />` : null}
+    ${r ? html`<${BluffRecv} r=${r} judge=${judge} onJudge=${sendJudge} />` : null}
+  </div>`;
+}
+
+const SEND_OUT = { TB: ['🤝', '믿어 줬어요', 'green'], LB: ['😎', '속였어요', 'amber'], LD: ['😬', '들켰어요', 'gray'], TD: ['😶', '참말인데 의심받았어요', 'gray'] };
+const RECV_OUT = { TB: ['🤝', '믿었고, 진짜였어요', 'green'], LB: ['😵', '속았어요', 'red'], LD: ['🕵️', '거짓말을 잡았어요', 'yellow'], TD: ['😶', '참말인데 의심했어요', 'gray'] };
+
+function BluffResult({ kind, x }) {
+  const [e, title, tone] = (kind === 'send' ? SEND_OUT : RECV_OUT)[bluffKey(x)];
+  const honest = x.claim === x.card;
+  const said = CREATURES[x.claim], real = CREATURES[x.card];
+  const o = kind === 'send' ? x.to : x.from;
+  const jt = x.judge === 'B' ? '🙆 믿음' : '🤨 의심';
+  return html`<div class="result bres tone-${tone} anim-pop">
+    <div class="bh">${kind === 'send' ? html`내가 한 말 → ${o.avatar} ${o.name}` : html`${o.avatar} ${o.name}의 말`}</div>
+    <div class="br1">
+      <div class="t"><span class="e1 ${tone === 'red' ? 'anim-shake' : ''}">${e}</span> ${title}</div>
+      <div class="pts num">${signed(x.pay)}</div>
+    </div>
+    <div class="d">“${said[0]} ${said[1]}” · ${honest ? '참말' : `거짓말 (진짜는 ${real[0]} ${real[1]})`} · ${kind === 'send' ? `${o.name} ${jt}` : `나 ${jt}`}</div>
+  </div>`;
+}
+
+function PBluffReveal({ v }) {
+  const s = v.send, r = v.recv;
+  useEffect(() => {
+    if (r && r.judge === 'B' && r.claim !== r.card && navigator.vibrate) navigator.vibrate([70, 50, 70]);
+  }, []);
+  return html`<div class="stack" style=${{ gap: '12px' }}>
+    <${Kicker}>보너스 · 믿을까 말까 · 라운드 ${v.round + 1}/${v.rounds}<//>
+    ${s ? html`<${BluffResult} kind="send" x=${s} />` : null}
+    ${s && s.forced ? html`<div class="banner">시간이 다 돼서 카드 그대로 말한 걸로 했어요</div>` : null}
+    ${r ? html`<${BluffResult} kind="recv" x=${r} />` : null}
+    ${r && r.forced ? html`<div class="banner">시간이 다 돼서 의심한 걸로 했어요</div>` : null}
+    <div class="pcard">
+      <div class="kv"><span>이번 판</span><b class="num">${signed(v.roundPay)}점</b></div>
+      <div class="kv"><span>지금까지 내 점수</span><b class="num">${nf(v.score)}점</b></div>
+    </div>
+    <p class="psub center">${v.last ? '마지막 판이었어요. 앞 화면을 봐 주세요.' : '곧 다음 판이 시작돼요'}</p>
+  </div>`;
+}
+
+function PBluffEnd({ v }) {
+  const emoji = v.fooled > v.duped ? '😎' : v.caught > 0 ? '🕵️' : v.duped > 0 ? '😵' : '🙂';
+  return html`<div class="stack center" style=${{ gap: '14px', paddingTop: '14px', alignItems: 'center' }}>
+    <${Kicker}>보너스 · 믿을까 말까 끝<//>
+    <div class="bigemoji anim-pop">${emoji}</div>
+    <h2 class="ptitle">내 점수 <span class="num">${nf(v.score)}</span>점</h2>
+    <div class="pcard" style=${{ width: '100%', textAlign: 'left' }}>
+      <div class="kv"><span>거짓말한 횟수</span><b class="num">${v.lied}/${v.played}</b></div>
+      <div class="kv"><span>상대를 속인 횟수</span><b class="num">${v.fooled}</b></div>
+      <div class="kv"><span>거짓말을 잡아낸 횟수</span><b class="num">${v.caught}</b></div>
+      <div class="kv"><span>내가 속은 횟수</span><b class="num">${v.duped}</b></div>
+    </div>
     <p class="psub">앞 화면을 봐 주세요 👀</p>
   </div>`;
 }
@@ -5636,6 +6360,7 @@ function PFinal({ v }) {
     <h2 class="ptitle center">오늘 내 기록</h2>
     <div class="pcard">
       ${v.pd ? html`<div class="kv"><span>대결 1 · 1차</span><b class="num">${v.pd[0] === null ? '–' : nf(v.pd[0]) + '점'}</b></div><div class="kv"><span>대결 1 · 2차</span><b class="num">${v.pd[1] === null ? '–' : nf(v.pd[1]) + '점'}</b></div>` : null}
+      ${v.bluff !== undefined ? html`<div class="kv"><span>보너스 · 믿을까 말까</span><b class="num">${nf(v.bluff)}점</b></div>` : null}
       ${v.bots ? html`${ALGOS.map((al, i) => html`<div class="kv"><span>대결 2 · ${al.emoji} ${al.name}</span><b class="num">${nf(v.bots.score[i])}점</b></div>`)}
         <div class="kv"><span>정체 맞히기</span><b class="num">${v.bots.correct === null ? '–' : v.bots.correct + '/3'}</b></div>` : null}
       ${v.pgg !== undefined ? html`<div class="kv"><span>공공재 게임</span><b class="num">🪙 ${fmt1(v.pgg)}</b></div>` : null}
