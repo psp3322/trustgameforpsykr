@@ -3749,7 +3749,7 @@ function createHost(params, net) {
     const r = S.pd.round;
     const ph = S.pd.phase;
     const common = { k: S.pd.cur, rounds: part.rounds, round: r, mode: part.mode, named: part.named, score: part.scores[pid] || 0 };
-    if (!part.members.includes(pid)) return { screen: 'wait', msg: '지금 대결은 이미 시작했어요. 다음 판부터 같이 해요!' };
+    if (!part.members.includes(pid)) return { screen: 'wait', msg: '이번 대결은 이미 시작됐어요. 다음 순서부터 같이 해요.' };
     if (ph === 'intro') return { screen: 'pd_intro', ...common };
     if (ph === 'choose') {
       return { screen: 'pd_choose', ...common, partner: partnerInfo(part, pid, r, false), mine: part.choices[r][pid] || null, deadline: S.pd.deadline, hist: pdHist(part, pid, r) };
@@ -3771,7 +3771,7 @@ function createHost(params, net) {
     const B = S.bots;
     if (B.phase === 'intro') return { screen: 'bots_intro', rounds: B.rounds };
     const p = B.prog[pid];
-    if (!p) return { screen: 'wait', msg: '대결 2 정체 공개 중이에요. 앞 화면을 봐주세요!' };
+    if (!p) return { screen: 'wait', msg: '대결 2 정체 공개 중이에요. 앞 화면을 봐 주세요.' };
     if (B.phase === 'play') {
       if (p.a < 3) return { screen: 'bots_play', a: p.a, rounds: B.rounds, hist: p.hist[p.a], score: p.score.slice(), prev: p.a > 0 ? p.hist[p.a - 1] : null };
       if (!p.guess) return { screen: 'bots_guess', score: p.score.slice(), hists: p.hist };
@@ -3782,7 +3782,7 @@ function createHost(params, net) {
   function pggView(pid) {
     const G = S.pgg;
     const ai = G.alias[pid];
-    if (ai === undefined) return { screen: 'wait', msg: '다음 판부터 같이 해요!' };
+    if (ai === undefined) return { screen: 'wait', msg: '다음 판부터 같이 해요.' };
     const s = set();
     const common = { alias: ANIMALS[ai], part: G.part, round: G.round, rounds: pggLimit(), E: s.pggEndow, m: s.pggMult, impact: s.pggImpact, maxP: s.pggMaxPunish, total: G.totals[pid] || 0 };
     if (G.phase === 'intro' || G.phase === 'introB') return { screen: 'pgg_intro', ...common };
@@ -3792,7 +3792,7 @@ function createHost(params, net) {
       return { screen: 'pgg_surprise', ...common, gauge: st.gauge, target: s.jellyTarget / 100 };
     }
     const R = pggRound();
-    if (!R || !R.members.includes(pid)) return { screen: 'wait', msg: '다음 판부터 같이 해요!' };
+    if (!R || !R.members.includes(pid)) return { screen: 'wait', msg: '다음 판부터 같이 해요.' };
     const gr = G.rounds.length - 1;
     const rows = R.members.map((p) => ({ a: G.alias[p], c: p in R.contrib ? R.contrib[p] : null, me: p === pid }));
     if (G.phase === 'contrib') {
@@ -3812,7 +3812,7 @@ function createHost(params, net) {
         rows: R.members.map((p) => ({ a: G.alias[p], c: R.contrib[p], hits: R.recv[p] || 0, me: p === pid })),
       };
     }
-    return { screen: 'wait', msg: '앞 화면을 봐주세요' };
+    return { screen: 'wait', msg: '앞 화면을 봐 주세요' };
   }
   function surpriseView(pid) {
     const st = S.pgg ? pggStats() : null;
@@ -3969,7 +3969,7 @@ function createHost(params, net) {
         net.publish(T('hb'), myHb(), false);
         if (!ui.warnedAt || now() - ui.warnedAt > 15000) {
           ui.warnedAt = now();
-          toast('⚠️ 다른 진행자 화면이 감지됐어요. 이 화면이 계속 진행해요.');
+          toast('⚠️ 다른 진행자 화면이 열려 있어요. 여기서 계속 진행해요.');
         }
       }
     });
@@ -4413,9 +4413,9 @@ function HostApp({ host, net }) {
     ${ui.settings ? html`<${SettingsModal} host=${host} url=${url} />` : null}
     ${host.resumePrompt ? html`<${ResumePrompt} host=${host} />` : null}
     ${host.passive ? html`<div class="overlay"><div class="card resume">
-      <h3>다른 진행자 화면이 진행 중이에요</h3>
-      <p style=${{ margin: 0 }}>같은 방을 다른 탭이나 기기에서 이미 진행하고 있어서, 학생 폰이 헷갈리지 않게 이 화면은 물러났어요.</p>
-      <p class="muted" style=${{ margin: 0 }}>그 화면을 닫았고 여기서 이어가려면 아래 버튼을 누르세요. 이 화면의 기록으로 진행돼요.</p>
+      <h3>다른 화면에서 이미 진행 중이에요</h3>
+      <p style=${{ margin: 0 }}>같은 방을 다른 탭이나 기기에서 이미 진행 중이라, 학생 폰이 헷갈리지 않게 이 화면은 멈췄어요.</p>
+      <p class="muted" style=${{ margin: 0 }}>다른 화면을 닫고 여기서 계속하려면 아래 버튼을 누르세요. 이 화면 기록으로 이어 가요.</p>
       <div class="btnrow"><button class="hbtn primary" onClick=${() => host.takeover()}>이 화면에서 진행하기</button></div>
     </div></div>` : null}
     ${ui.toast ? html`<div class="toast" key=${ui.toast.at}>${ui.toast.msg}</div>` : null}
@@ -4473,10 +4473,10 @@ function HostLobby({ host, url }) {
     <section>
       <${Kicker}>신뢰 게임 · 입장<//>
       <h1 class="h-title">QR 찍고<br /><em>들어와요</em></h1>
-      <p class="h-sub">닉네임만 정하면 끝이에요.<br />다음 화면은 앞에서 알아서 넘어가요.</p>
+      <p class="h-sub">닉네임만 정하면 끝이에요.<br />시작하면 화면이 자동으로 넘어가요.</p>
       ${ids.length
         ? html`<div class="chips">${ids.map((pid) => html`<${PlayerChip} key=${pid} host=${host} pid=${pid} />`)}</div>`
-        : html`<div class="empty-note">아직 아무도 없어요. 오른쪽 QR을 찍어주세요!</div>`}
+        : html`<div class="empty-note">아직 아무도 없어요. 오른쪽 QR을 찍어 주세요.</div>`}
     </section>
     <section class="lobby-right card">
       <${QR} text=${url} size="min(25em, 50vh)" />
@@ -4520,12 +4520,12 @@ function PDIntro({ part }) {
     <${Kicker}>1막 · 대결 1 · ${first ? '1차' : '2차'}<//>
     <h1 class="h-title">${first
       ? (stranger ? html`매 판 <em>새로운 상대</em>와 ${part.rounds}판` : html`<em>같은 상대</em>와 ${part.rounds}판`)
-      : html`한 번 더! 이번엔 <em>같은 상대</em>와 ${part.rounds}판`}</h1>
+      : html`이번엔 <em>같은 상대</em>와 ${part.rounds}판 해요`}</h1>
     <p class="h-sub">${first
       ? (stranger ? '누구랑 붙는지 몰라요. 한 번 만난 상대는 다시 안 만나요.' : '상대는 끝까지 그대로예요.')
-      : (part.named ? '상대가 끝까지 안 바뀌어요. 그리고 누군지도 알려드려요.' : '상대가 끝까지 안 바뀌어요.')}</p>
+      : (part.named ? '상대가 끝까지 안 바뀌어요. 누군지도 알려 드려요.' : '상대가 끝까지 안 바뀌어요.')}</p>
     <div class="payoff-wrap"><${PayoffTable} /></div>
-    <p class="h-sub" style=${{ fontSize: '1em' }}>📱 폰에 <b>협력</b>·<b>배신</b> 버튼이 뜨면 하나만 골라주세요.</p>
+    <p class="h-sub" style=${{ fontSize: '1em' }}>📱 폰에 <b>협력</b>·<b>배신</b> 버튼이 뜨면 하나만 골라 주세요.</p>
   </div>`;
 }
 
@@ -4597,7 +4597,7 @@ function PDEnd({ host }) {
   if (pd.cur === 1) {
     return html`<div class="stack anim-fade">
       <${Kicker}>1막 · 대결 1 · 1차 끝<//>
-      <h1 class="h-title">1차 끝! 협력률 <em class="num">${pct(st.rate1 || 0)}</em></h1>
+      <h1 class="h-title">1차 끝, 협력률 <em class="num">${pct(st.rate1 || 0)}</em></h1>
       <p class="h-sub">판마다 협력을 고른 사람 비율이에요. 점수는 각자 폰에서 확인해요.</p>
       <div class="card cbox" style=${{ maxWidth: '54em', marginTop: '.6em' }}>
         <${VBars} rows=${st.series1.map((v, i) => ({ label: `${i + 1}판`, value: v, tone: 'green' }))} />
@@ -4636,8 +4636,8 @@ function HostBots({ host }) {
   const play = B.phase === 'play';
   const title = B.phase === 'reveal' ? html`어떤 <em>알고리즘</em>이었을까요?` : html`이번엔 <em>알고리즘이랑</em> 해요.`;
   const sub = B.phase === 'intro'
-    ? `3가지 유형이 있어요. 각자 폰에서 하나씩 ${B.rounds}판. 끝나면 정체를 맞혀봐요.`
-    : play ? '📱 각자 속도대로 진행해요. 세 알고리즘과 다 하고 나면 정체 맞히기까지!' : '하나씩 열어볼게요. 맞힌 사람 손!';
+    ? `3가지 유형이 있어요. 각자 폰에서 알고리즘마다 ${B.rounds}판씩 해 보고 정체를 맞혀 봐요.`
+    : play ? '📱 각자 속도대로 진행해요. 세 알고리즘과 다 붙고 나면 정체도 맞혀 봐요.' : '하나씩 열어 볼게요. 누가 맞혔을까요?';
   return html`<div class="stack">
     <${Kicker}>2막 · 대결 2 · 알고리즘 전용<//>
     <h1 class="h-title ${play ? 'sm' : ''}">${title}</h1>
@@ -4709,13 +4709,13 @@ function Tourney() {
     <p class="h-sub">자기 자신과도 한 번씩 붙어요. 점수는 오늘 쓴 보상표 그대로예요.</p>
     <div class="tourney">
       <div class="card cbox">
-        <h4>${done ? html`🏆 <span style=${{ color: COL.rust }}>${A(winner).name}</span> 우승!` : '누적 점수'}</h4>
+        <h4>${done ? html`🏆 <span style=${{ color: COL.rust }}>${A(winner).name}</span> 우승` : '누적 점수'}</h4>
         <div class="hbars">${keys.map((k, i) => html`<div class="hbar-row tone-${A(k).tone}">
           <div class="lab"><b>${A(k).emoji} ${A(k).name}</b></div>
           <div class="track"><div class="fill" style=${{ width: (Math.max(0, totals[k]) / max) * 100 + '%', transition: 'width .6s ease', animation: 'none' }}></div></div>
           <div class="val num">${nf(totals[k])}</div>
         </div>`)}</div>
-        ${done ? html`<p class="h-sub anim-fade" style=${{ fontSize: '.95em', marginTop: '1.2em' }}>착하기만 해도 지고, 못되기만 해도 져요. 먼저 협력하고, 당하면 갚고, 다시 협력하는 쪽이 이겼어요.</p>` : null}
+        ${done ? html`<p class="h-sub anim-fade" style=${{ fontSize: '.95em', marginTop: '1.2em' }}>착하기만 해도 지고, 못되기만 해도 져요. 먼저 손 내밀고 받은 만큼 돌려주는 쪽이 이겼어요.</p>` : null}
       </div>
       <div class="card cbox"><h4>경기 결과 (${Math.min(step, res.games.length)}/${res.games.length})</h4>
         <div class="games">${res.games.slice(0, step).map((g, i) => html`<div class="game on" key=${i}>
@@ -4826,7 +4826,7 @@ function HostPGG({ host }) {
       <div class="hrow">
         <div><${Kicker}>3막 · 공공재 게임 · ${partTag}<//>
           <h1 class="h-title sm">${G.phase === 'contrib' ? html`라운드 <span class="num">${G.round + 1} / ${host.pggLimit()}</span>` : html`<em>응징 시간</em> 👊`}</h1>
-          <p class="h-sub">${G.phase === 'contrib' ? '📱 금고에 몇 개 넣을지 골라주세요.' : '📱 응징할 동물이 있나요? 안 해도 돼요.'}</p></div>
+          <p class="h-sub">${G.phase === 'contrib' ? '📱 금고에 몇 개 넣을지 골라 주세요.' : '📱 응징할 동물이 있나요? 안 해도 돼요.'}</p></div>
         <div style=${{ display: 'flex', alignItems: 'center', gap: '1em' }}>
           <div class="progress-big num">${done.length}/${R.members.length}<small>${G.phase === 'contrib' ? '냈어요' : '정했어요'}</small></div>
           ${G.deadline ? html`<${Ring} left=${Math.max(0, G.deadline - t)} total=${total} size=${ringPx()} />` : null}
@@ -4882,7 +4882,7 @@ function PGGPunishReveal({ host }) {
   return html`<div class="stack">
     <div class="hrow">
       <div><${Kicker}>3막 · 공공재 게임 · B단계 · 라운드 ${host.S.pgg.round + 1}<//>
-        <h1 class="h-title sm">${totalHits ? html`👊 <em>응징</em> 결과` : '이번 판은 아무도 응징 안 했어요'}</h1>
+        <h1 class="h-title sm">${totalHits ? html`👊 <em>응징</em> 결과` : '이번 판엔 아무도 응징하지 않았어요'}</h1>
         <p class="h-sub">${totalHits ? `${punishers}마리가 코인 ${totalHits}개를 써서, 모두 합쳐 ${totalHits * host.S.settings.pggImpact}개를 깎았어요.` : '평화로운 판이었네요 🕊️'}</p>
       </div>
       <${Gauge} host=${host} compact=${true} />
@@ -4907,7 +4907,7 @@ function PGGEnd({ host }) {
           <${LineChart} series=${[{ color: COL.rust, pts: A.map((x) => x.rate) }]} xLabels=${A.map((x) => `A${x.idx + 1}`)} />
         </div>
         <div class="stack"><${Gauge} host=${host} />
-          <div class="card cbox"><h4>생각해볼 것</h4><p class="h-sub" style=${{ fontSize: '1em' }}>나만 안 넣으면 내 손엔 더 남아요. 그런데 다들 그렇게 하면?</p></div>
+          <div class="card cbox"><h4>생각해 볼 점</h4><p class="h-sub" style=${{ fontSize: '1em' }}>나만 안 넣으면 내 손엔 더 남아요. 그런데 다들 그렇게 하면?</p></div>
         </div>
       </div>
     </div>`;
@@ -4941,8 +4941,8 @@ function PGGSurprise({ host }) {
   return html`<div class="surprise">
     <div class="gift anim-pop">🍬</div>
     <${Kicker}>서프라이즈<//>
-    <h1 class="h-title" style=${{ margin: 0 }}>방금 점수, <em>젤리</em>로 바꿔드려요!</h1>
-    <p class="h-sub">${!st ? '끝나고 다 같이 받아가세요.' : ok ? `공공재 게이지 ${pct(st.gauge)} · 목표 달성! 끝나고 다 같이 받아가세요.` : `공공재 게이지 ${pct(st.gauge)} · 목표엔 조금 모자랐지만, 오늘은 다 같이 받아가요.`}</p>
+    <h1 class="h-title" style=${{ margin: 0 }}>방금 점수, <em>젤리</em>로 바꿔 드려요</h1>
+    <p class="h-sub">${!st ? '끝나고 다 같이 받아 가세요.' : ok ? `서프라이즈 게이지 ${pct(st.gauge)} · 목표 달성, 끝나고 다 같이 받아 가세요.` : `서프라이즈 게이지 ${pct(st.gauge)} · 목표엔 조금 모자랐지만 다 같이 받아 가요.`}</p>
     ${st ? html`<div style=${{ width: 'min(36em, 80vw)', marginTop: '1em' }}><${Gauge} host=${host} /></div>` : null}
     <p class="muted" style=${{ marginTop: '.6em' }}>시상이나 상장은 없어요. 가볍게 즐겨요.</p>
   </div>`;
@@ -5024,7 +5024,7 @@ function SettingsModal({ host, url }) {
         <select value=${s.pd1Mode} onChange=${(e) => host.setSetting('pd1Mode', e.target.value)}>
           <option value="stranger">매 판 새 상대</option><option value="fixed">같은 상대</option>
         </select></div>
-      ${chk('pd2Named', '2차에서 상대 닉네임 공개', '“또 만나는 사람”이라는 느낌을 키워요')}
+      ${chk('pd2Named', '2차에서 상대 닉네임 공개', '“또 만날 사람”이라는 느낌이 커져요')}
 
       <h5>대결 2 · 알고리즘</h5>
       ${num('botRounds', '알고리즘마다 판 수', null, 2, 12)}
@@ -5135,7 +5135,7 @@ function PConnecting({ pl }) {
     <div><span class="spinner" style=${{ width: '36px', height: '36px', borderWidth: '3px' }}></span></div>
     <h2 class="ptitle">연결하는 중…</h2>
     ${slow
-      ? html`<p class="psub">${pl.netUp ? '진행자 화면이 아직 안 열렸어요. 조금만 기다려 주세요.' : '연결이 늦어요. 와이파이를 끄고 데이터(LTE/5G)로 바꿔보세요.'}</p>`
+      ? html`<p class="psub">${pl.netUp ? '진행자 화면이 아직 안 열렸어요. 조금만 기다려 주세요.' : '연결이 잘 안 돼요. 와이파이를 끄고 데이터(LTE/5G)로 바꿔 보세요.'}</p>`
       : html`<p class="psub">잠깐이면 돼요.</p>`}
   </div>`;
 }
@@ -5160,21 +5160,21 @@ function PJoin({ pl }) {
   };
   return html`<form class="stack" style=${{ gap: '16px', paddingTop: '18px' }} onSubmit=${submit}>
     <${Kicker}>신뢰와 배신의 사회심리학<//>
-    <h2 class="ptitle">닉네임을 정해주세요</h2>
+    <h2 class="ptitle">닉네임을 정해 주세요</h2>
     <p class="psub">실명 말고 별명도 좋아요. 10자까지.</p>
     <div class="inrow">
       <input class="pinput" maxlength="10" placeholder="예: 말랑한 붕어빵" value=${name} onInput=${(e) => setName(e.target.value)} />
       <button type="button" class="dice" title="랜덤 닉네임" onClick=${() => setName(randomNick())}>🎲</button>
     </div>
     <button class="pbtn rust" type="submit" disabled=${busy}>${busy ? '들어가는 중…' : '입장하기'}</button>
-    <p class="muted center" style=${{ fontSize: '13px' }}>비워두면 랜덤 닉네임으로 들어가요</p>
+    <p class="muted center" style=${{ fontSize: '13px' }}>비워 두면 랜덤 닉네임으로 들어가요</p>
   </form>`;
 }
 
 function PScreen({ v, pl }) {
   switch (v.screen) {
     case 'lobby': return html`<${PLobby} v=${v} pl=${pl} />`;
-    case 'wait': return html`<${PMsg} emoji="⏳" title="잠깐만요!" text=${v.msg} />`;
+    case 'wait': return html`<${PMsg} emoji="⏳" title="잠깐만요" text=${v.msg} />`;
     case 'kicked': return html`<${PMsg} emoji="👋" title="게임에서 나왔어요" text="진행자가 내보냈어요. 다시 참여하려면 진행자에게 말해 주세요." />`;
     case 'pd_intro': return html`<${PPDIntro} v=${v} />`;
     case 'pd_choose': return html`<${PPDChoose} v=${v} pl=${pl} />`;
@@ -5190,11 +5190,11 @@ function PScreen({ v, pl }) {
     case 'pgg_creveal': return html`<${PPGGCReveal} v=${v} />`;
     case 'pgg_punish': return html`<${PPGGPunish} v=${v} pl=${pl} />`;
     case 'pgg_preveal': return html`<${PPGGPReveal} v=${v} />`;
-    case 'pgg_end': return html`<${PMsg} emoji=${v.part === 'A' ? '🏁' : '🎉'} title=${v.part === 'A' ? 'A단계 끝!' : '공공재 게임 끝!'} text=${`지금까지 모은 코인 🪙 ${fmt1(v.total)}개. 앞 화면을 봐주세요 👀`} />`;
+    case 'pgg_end': return html`<${PMsg} emoji=${v.part === 'A' ? '🏁' : '🎉'} title=${v.part === 'A' ? 'A단계 끝' : '공공재 게임 끝'} text=${`지금까지 모은 코인 🪙 ${fmt1(v.total)}개 · 앞 화면을 봐 주세요 👀`} />`;
     case 'pgg_surprise':
     case 'surprise': return html`<${PSurprise} v=${v} />`;
     case 'final': return html`<${PFinal} v=${v} />`;
-    default: return html`<${PMsg} emoji="👀" title="앞 화면을 봐주세요" text="" />`;
+    default: return html`<${PMsg} emoji="👀" title="앞 화면을 봐 주세요" text="" />`;
   }
 }
 
@@ -5210,8 +5210,8 @@ function PLobby({ v, pl }) {
   const [cool, setCool] = useState(false);
   return html`<div class="stack center" style=${{ gap: '16px', paddingTop: '26px', alignItems: 'center' }}>
     <div class="bigemoji anim-pop">${v.me.avatar}</div>
-    <h2 class="ptitle">${v.me.name} 님,<br />입장 완료!</h2>
-    <p class="psub">앞 화면을 봐주세요. 곧 시작해요.<br />지금 <b>${v.n}명</b> 들어와 있어요.</p>
+    <h2 class="ptitle">${v.me.name} 님,<br />들어왔어요</h2>
+    <p class="psub">앞 화면을 봐 주세요. 곧 시작해요.<br />지금 <b>${v.n}명</b> 들어와 있어요.</p>
     <button class="wavebtn" disabled=${cool} onClick=${() => { pl.send('wave', {}); setCool(true); setTimeout(() => setCool(false), 1500); }}><span class="h">👋</span> 손 흔들기</button>
     <p class="muted" style=${{ fontSize: '13px', margin: 0 }}>누르면 앞 화면에서 내 이름이 인사해요</p>
     <button class="linkbtn" onClick=${() => { const n = prompt('새 닉네임 (10자까지)', v.me.name); if (n && n.trim()) pl.rename(n); }}>닉네임 바꾸기</button>
@@ -5231,14 +5231,14 @@ function PayMini() {
 
 function PPDIntro({ v }) {
   const first = v.k === 1;
-  const title = first ? (v.mode === 'stranger' ? `매 판 새로운 상대와 ${v.rounds}판` : `같은 상대와 ${v.rounds}판`) : `한 번 더! 같은 상대와 ${v.rounds}판`;
-  const sub = first ? (v.mode === 'stranger' ? '누구랑 붙는지 몰라요. 한 번 만난 상대는 다시 안 만나요.' : '상대는 끝까지 그대로예요.') : v.named ? '이번엔 상대가 누군지 알려줘요.' : '이번엔 상대가 끝까지 안 바뀌어요.';
+  const title = first ? (v.mode === 'stranger' ? `매 판 새로운 상대와 ${v.rounds}판` : `같은 상대와 ${v.rounds}판`) : `이번엔 같은 상대와 ${v.rounds}판 해요`;
+  const sub = first ? (v.mode === 'stranger' ? '누구랑 붙는지 몰라요. 한 번 만난 상대는 다시 안 만나요.' : '상대는 끝까지 그대로예요.') : v.named ? '이번엔 상대가 누군지 알려 줘요.' : '이번엔 상대가 끝까지 안 바뀌어요.';
   return html`<div class="stack" style=${{ gap: '14px' }}>
     <${Kicker}>대결 1 · ${first ? '1차' : '2차'}<//>
     <h2 class="ptitle">${title}</h2>
     <p class="psub">${sub}</p>
     <div class="pcard"><${PayMini} /></div>
-    <p class="psub center">곧 시작해요. 앞 화면을 봐주세요 👀</p>
+    <p class="psub center">곧 시작해요. 앞 화면을 봐 주세요 👀</p>
   </div>`;
 }
 
@@ -5294,7 +5294,7 @@ function PPDChoose({ v, pl }) {
     </div>
     ${mine
       ? html`<div class="pcard center anim-fade"><b>${CHOICE[mine].emoji} ${CHOICE[mine].label}</b>을 골랐어요. 상대를 기다리는 중<span class="wait-dots"><span>.</span><span>.</span><span>.</span></span></div>`
-      : html`<p class="psub center">하나만 골라주세요. 고르면 못 바꿔요.</p>`}
+      : html`<p class="psub center">하나만 골라 주세요. 고르면 못 바꿔요.</p>`}
     <${PDHist} hist=${v.hist} />
   </div>`;
 }
@@ -5313,11 +5313,11 @@ function PPDReveal({ v }) {
       <div class="pts num">${signed(v.pay)}</div>
       <div class="d">나 ${CHOICE[v.mine].emoji} ${CHOICE[v.mine].label} · ${who} ${CHOICE[v.theirs].emoji} ${CHOICE[v.theirs].label}</div>
     </div>
-    ${v.forced ? html`<div class="banner">시간 안에 못 골라서 자동으로 협력 처리됐어요</div>` : null}
+    ${v.forced ? html`<div class="banner">시간이 다 돼서 자동으로 협력했어요</div>` : null}
     ${v.partner.kind === 'bot' && v.k === 1 && v.mode === 'stranger' ? html`<p class="psub center">이번 상대는 🤖 알고리즘이었어요. 인원이 홀수라 자리를 채웠어요.</p>` : null}
     <div class="pcard"><div class="kv"><span>${v.k === 1 ? '1차' : '2차'} 내 점수</span><b class="num">${nf(v.score)}점</b></div></div>
     <${PDHist} hist=${v.hist} />
-    <p class="psub center">${v.last ? '마지막 판이었어요. 앞 화면을 봐주세요!' : '곧 다음 판이 시작돼요'}</p>
+    <p class="psub center">${v.last ? '마지막 판이었어요. 앞 화면을 봐 주세요.' : '곧 다음 판이 시작돼요'}</p>
   </div>`;
 }
 
@@ -5328,7 +5328,7 @@ function PPDEnd({ v }) {
     <h2 class="ptitle">내 점수 <span class="num">${nf(v.score)}</span>점</h2>
     <p class="psub">${v.rounds}판 중 협력 ${v.coopN}번</p>
     <${PDHist} hist=${v.hist} />
-    <p class="psub">앞 화면을 봐주세요 👀</p>
+    <p class="psub">앞 화면을 봐 주세요 👀</p>
   </div>`;
 }
 
@@ -5344,7 +5344,7 @@ function PBotsIntro({ v }) {
   return html`<div class="stack center" style=${{ gap: '16px', paddingTop: '10px' }}>
     <${Kicker}>대결 2 · 알고리즘 전용<//>
     <h2 class="ptitle">이번엔 알고리즘이랑 해요</h2>
-    <p class="psub">알고리즘 3개와 하나씩 ${v.rounds}판.<br />어떤 성격인지 잘 봐두세요. 끝나면 정체를 맞혀요!</p>
+    <p class="psub">알고리즘 3개와 ${v.rounds}판씩 해요.<br />어떻게 나오는지 잘 봐 두세요. 끝나면 정체를 맞혀요.</p>
     <${Orbs} />
     <p class="psub">곧 시작해요 👀</p>
   </div>`;
@@ -5390,8 +5390,8 @@ function PBotsPlay({ v, pl }) {
     const prevScore = v.score[v.a - 1];
     return html`<div class="stack center" style=${{ gap: '14px', paddingTop: '8px' }}>
       <${Kicker}>대결 2 · 상대 ${v.a}/3 끝<//>
-      <h2 class="ptitle">${prevAl.dot} 알고리즘 ${prevAl.no}<br />대결 끝!</h2>
-      <div class="pcard" style=${{ textAlign: 'left' }}><div class="kv"><span>이 상대에게서 얻은 점수</span><b class="num">${nf(prevScore)}점</b></div></div>
+      <h2 class="ptitle">${prevAl.dot} 알고리즘 ${prevAl.no}<br />대결 끝</h2>
+      <div class="pcard" style=${{ textAlign: 'left' }}><div class="kv"><span>이번 대결 점수</span><b class="num">${nf(prevScore)}점</b></div></div>
       <${BotHistory} hist=${v.prev} />
       <div class="pcard tone-${al.tone}"><div class="botrow" style=${{ justifyContent: 'center' }}><div class="orbp">?</div><div style=${{ textAlign: 'left' }}><div class="muted" style=${{ fontSize: '13px', fontWeight: 700 }}>다음 상대</div><div style=${{ fontWeight: 800, fontSize: '19px' }}>${al.dot} 알고리즘 ${al.no}</div></div></div></div>
       <button class="pbtn rust" onClick=${() => setIntro(false)}>시작하기</button>
@@ -5412,7 +5412,7 @@ function PBotsPlay({ v, pl }) {
     ${last && !busy ? html`<div class="result tone-${outcomeInfo(last.p, last.b).tone} anim-pop" key=${'r' + r} style=${{ padding: '14px' }}>
       <div class="t" style=${{ marginTop: 0, fontSize: '19px' }}>알고리즘은 ${CHOICE[last.b].emoji} ${CHOICE[last.b].label}</div>
       <div class="d">나 ${CHOICE[last.p].emoji} ${CHOICE[last.p].label} → <b class="num">${signed(last.pay)}</b></div>
-    </div>` : busy ? html`<div class="pcard center"><span class="muted">🤖 알고리즘이 고르는 중<span class="wait-dots"><span>.</span><span>.</span><span>.</span></span></span></div>` : html`<p class="psub center">첫 판이에요. 하나 골라보세요!</p>`}
+    </div>` : busy ? html`<div class="pcard center"><span class="muted">🤖 알고리즘이 고르는 중<span class="wait-dots"><span>.</span><span>.</span><span>.</span></span></span></div>` : html`<p class="psub center">첫 판이에요. 하나 골라 보세요.</p>`}
     <div class="choices">
       ${['C', 'D'].map((c) => html`<button class="choice tone-${CHOICE[c].tone} ${pend && pend.c === c ? 'sel' : ''} ${pend && pend.c !== c ? 'dim' : ''}" disabled=${busy} onClick=${() => choose(c)}>
         <span class="e">${CHOICE[c].emoji}</span><span class="l">${CHOICE[c].label}</span>
@@ -5427,15 +5427,15 @@ function PBotsGuess({ v, pl }) {
   const [sent, setSent] = useState(false);
   return html`<div class="stack" style=${{ gap: '12px' }}>
     <${Kicker}>대결 2 · 정체 맞히기<//>
-    <h2 class="ptitle">알고리즘의 정체를 맞혀보세요</h2>
-    <p class="psub">붙어본 느낌대로 하나씩 골라요.</p>
+    <h2 class="ptitle">알고리즘 정체를 맞혀 보세요</h2>
+    <p class="psub">붙어 본 느낌대로 하나씩 골라요.</p>
     ${ALGOS.map((al, i) => html`<div class="pcard guess tone-${al.tone}" key=${i}>
       <div class="botrow"><div class="orbp" style=${{ width: '42px', height: '42px', fontSize: '17px' }}>?</div>
         <div><b>${al.dot} 알고리즘 ${al.no}</b><div class="muted num" style=${{ fontSize: '13px', fontWeight: 600 }}>내 점수 ${nf(v.score[i])}점</div></div></div>
       <${BotHistory} hist=${v.hists[i]} small=${true} />
       <div class="gopts">${GUESS_OPTS.map((o) => html`<button class="gopt ${g[i] === o.key ? 'sel' : ''}" onClick=${() => { const n = g.slice(); n[i] = o.key; setG(n); }}>${o.emoji} ${o.name}</button>`)}</div>
     </div>`)}
-    <button class="pbtn rust" disabled=${g.some((x) => !x) || sent} onClick=${() => { setSent(true); pl.send('guess', { g }); }}>${sent ? '제출 중…' : g.some((x) => !x) ? '셋 다 골라주세요' : '제출하기'}</button>
+    <button class="pbtn rust" disabled=${g.some((x) => !x) || sent} onClick=${() => { setSent(true); pl.send('guess', { g }); }}>${sent ? '제출 중…' : g.some((x) => !x) ? '셋 다 골라 주세요' : '제출하기'}</button>
   </div>`;
 }
 
@@ -5444,8 +5444,8 @@ const guessLabel = (k) => { const o = GUESS_OPTS.find((x) => x.key === k); retur
 function PBotsDone({ v }) {
   return html`<div class="stack" style=${{ gap: '12px' }}>
     <div class="center" style=${{ paddingTop: '8px' }}><div class="bigemoji anim-pop">🕵️</div></div>
-    <h2 class="ptitle center">제출 완료!</h2>
-    <p class="psub center">다른 친구들이 끝나면 앞 화면에서 하나씩 열어볼게요.</p>
+    <h2 class="ptitle center">제출했어요</h2>
+    <p class="psub center">다른 친구들도 끝나면 앞 화면에서 하나씩 열어 볼게요.</p>
     <div class="pcard">${ALGOS.map((al, i) => html`<div class="kv"><span>${al.dot} 알고리즘 ${al.no} <span class="muted num">(${nf(v.score[i])}점)</span></span><b>${guessLabel(v.guess[i])}</b></div>`)}</div>
   </div>`;
 }
@@ -5469,7 +5469,7 @@ function PBotsReveal({ v }) {
         </div>
       </div>`;
     })}
-    <p class="psub center">앞 화면을 봐주세요 👀</p>
+    <p class="psub center">앞 화면을 봐 주세요 👀</p>
   </div>`;
 }
 
@@ -5486,14 +5486,14 @@ function PPGGIntro({ v }) {
   return html`<div class="stack center" style=${{ gap: '14px', alignItems: 'stretch' }}>
     <${Kicker}>공공재 게임 · ${B ? 'B단계 · 응징 등장' : 'A단계'}<//>
     <div class="mask-me anim-pop">${v.alias[0]}</div>
-    <h2 class="ptitle">이번 게임에서 당신은<br /><em>${iyeyo(v.alias[1])}</em></h2>
+    <h2 class="ptitle">이번 게임에서 나는<br /><em>${iyeyo(v.alias[1])}</em></h2>
     <p class="psub">내 화면에만 보여요. 아무도 몰라요 🤫</p>
     <div class="pcard" style=${{ textAlign: 'left' }}>
       ${B
         ? html`<div class="kv"><span>👊 1개 쓰면</span><b>내 코인 −1</b></div><div class="kv"><span>맞은 동물은</span><b>−${v.impact}</b></div><div class="kv"><span>한 판에 최대</span><b>${v.maxP}개</b></div><div class="kv"><span>안 써도</span><b>괜찮아요</b></div>`
         : html`<div class="kv"><span>매 판 받는 코인</span><b>🪙 ${v.E}개</b></div><div class="kv"><span>금고에 넣으면</span><b>×${v.m}</b></div><div class="kv"><span>금고는</span><b>모두 똑같이 나눠요</b></div><div class="kv"><span>안 넣은 코인</span><b>그대로 내 거</b></div>`}
     </div>
-    <p class="psub">곧 시작해요. 앞 화면을 봐주세요 👀</p>
+    <p class="psub">곧 시작해요. 앞 화면을 봐 주세요 👀</p>
   </div>`;
 }
 
@@ -5524,7 +5524,7 @@ function PPGGContrib({ v, pl }) {
       <div class="quick" style=${{ marginTop: '12px' }}>${qs.map((q) => html`<button onClick=${() => setVal(q)} style=${val === q ? { borderColor: COL.rust, color: COL.rust } : null}>${q}</button>`)}</div>
       <div class="split" style=${{ marginTop: '14px' }}><span>🏦 금고에 <b class="num">${val === null ? '–' : val}</b></span><span>✋ 내 손에 <b class="num">${val === null ? '–' : v.E - val}</b></span></div>
     </div>
-    <button class="pbtn rust" disabled=${val === null} onClick=${() => { setSent(true); pl.send('contrib', { gr: v.gr, n: val }); }}>${val === null ? '개수를 골라주세요' : `금고에 ${val}개 넣기`}</button>
+    <button class="pbtn rust" disabled=${val === null} onClick=${() => { setSent(true); pl.send('contrib', { gr: v.gr, n: val }); }}>${val === null ? '개수를 골라 주세요' : `금고에 ${val}개 넣기`}</button>
     <p class="psub center">금고는 ×${v.m}이 돼서 ${v.n}마리가 똑같이 나눠요.</p>
   </div>`;
 }
@@ -5592,7 +5592,7 @@ function PPGGPunish({ v, pl }) {
     <div class="split"><span>쓴 👊 <b class="num">${used}/${v.maxP}</b></span><span>내 코인 <b class="num">${used ? '−' + used : '0'}</b></span></div>
     <div style=${{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: '10px' }}>
       <button class="pbtn ghost" onClick=${() => submit({})}>안 할래요</button>
-      <button class="pbtn rust" disabled=${!used} onClick=${() => submit(alloc)}>${used ? `👊 ${used}개 확정` : '골라주세요'}</button>
+      <button class="pbtn rust" disabled=${!used} onClick=${() => submit(alloc)}>${used ? `👊 ${used}개 확정` : '골라 주세요'}</button>
     </div>
   </div>`;
 }
@@ -5624,8 +5624,8 @@ function PSurprise({ v }) {
   const ok = has && v.gauge >= v.target;
   return html`<div class="stack center" style=${{ gap: '12px', paddingTop: '20px' }}>
     <div class="bigemoji anim-pop" style=${{ fontSize: '84px' }}>🍬</div>
-    <h2 class="ptitle">방금 점수,<br /><em>젤리</em>로 바꿔드려요!</h2>
-    <p class="psub">${!has ? '끝나고 다 같이 받아가세요.' : ok ? '목표 달성! 끝나고 받아가세요.' : '목표엔 조금 모자랐지만, 오늘은 다 같이 받아가요.'}</p>
+    <h2 class="ptitle">방금 점수,<br /><em>젤리</em>로 바꿔 드려요</h2>
+    <p class="psub">${!has ? '끝나고 다 같이 받아 가세요.' : ok ? '목표 달성, 끝나고 받아 가세요.' : '목표엔 조금 모자랐지만 오늘은 다 같이 받아 가요.'}</p>
     ${has ? html`<div class="pcard"><div class="kv"><span>🎁 서프라이즈 게이지</span><b class="num">${pct(v.gauge)}</b></div>${v.total !== null && v.total !== undefined ? html`<div class="kv"><span>내가 모은 코인</span><b class="num">🪙 ${fmt1(v.total)}</b></div>` : null}</div>` : null}
   </div>`;
 }
@@ -5633,14 +5633,14 @@ function PSurprise({ v }) {
 function PFinal({ v }) {
   return html`<div class="stack" style=${{ gap: '12px' }}>
     <div class="center" style=${{ paddingTop: '8px' }}><div class="bigemoji anim-pop">🎉</div></div>
-    <h2 class="ptitle center">오늘 나의 기록</h2>
+    <h2 class="ptitle center">오늘 내 기록</h2>
     <div class="pcard">
       ${v.pd ? html`<div class="kv"><span>대결 1 · 1차</span><b class="num">${v.pd[0] === null ? '–' : nf(v.pd[0]) + '점'}</b></div><div class="kv"><span>대결 1 · 2차</span><b class="num">${v.pd[1] === null ? '–' : nf(v.pd[1]) + '점'}</b></div>` : null}
       ${v.bots ? html`${ALGOS.map((al, i) => html`<div class="kv"><span>대결 2 · ${al.emoji} ${al.name}</span><b class="num">${nf(v.bots.score[i])}점</b></div>`)}
         <div class="kv"><span>정체 맞히기</span><b class="num">${v.bots.correct === null ? '–' : v.bots.correct + '/3'}</b></div>` : null}
       ${v.pgg !== undefined ? html`<div class="kv"><span>공공재 게임</span><b class="num">🪙 ${fmt1(v.pgg)}</b></div>` : null}
     </div>
-    <p class="psub center">끝까지 함께해줘서 고마워요!</p>
+    <p class="psub center">끝까지 함께해 줘서 고마워요.</p>
   </div>`;
 }
 
