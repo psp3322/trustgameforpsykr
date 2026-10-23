@@ -560,6 +560,9 @@ button.scorechip { font: inherit; font-weight: 800; font-size: 14px; color: var(
 .bplay .bgroup { padding: .9em 1.1em; gap: .55em; }
 .vbar .vl { word-break: keep-all; }
 
+/* 학생 폰: 본문 글씨를 조금 키운다 */
+.pbody, .sheet { zoom: 1.1; }
+
 </style>
 </head>
 <body>
@@ -4973,7 +4976,7 @@ const yaEnd = (w) => w + (hasBatchim(w) ? '이야' : '야');
 // 보너스 게임 결과: T/L(진실·거짓말) + B/D(믿음·의심). X는 시간 초과로 판단 없음
 const bluffKey = (t) => (t.fj ? 'X' : (t.claim === t.card ? 'T' : 'L') + t.judge);
 const BLUFF_OUT = {
-  TB: { tone: 'green', label: '🤝 서로 이득' },
+  TB: { tone: 'green', label: '🤝 믿음' },
   LB: { tone: 'red', label: '😈 속임' },
   LD: { tone: 'yellow', label: '🕵️ 잡아냄' },
   TD: { tone: 'gray', label: '😶 괜한 의심' },
@@ -5378,7 +5381,7 @@ function BluffPayoff() {
   return html`<table class="payoff">
     <thead><tr><th class="corner">말한 사람 / 들은 사람</th><th>🙆 믿으면</th><th>🤨 의심하면</th></tr></thead>
     <tbody>
-      <tr><th>진실</th>${cell(1, 1, '서로 이득', true)}${cell(0, 0, '괜한 의심')}</tr>
+      <tr><th>진실</th>${cell(1, 1, '믿음', true)}${cell(0, 0, '괜한 의심')}</tr>
       <tr><th>거짓말</th>${cell(2, -1, '속임')}${cell(-1, 1, '잡아냄')}</tr>
     </tbody>
   </table>`;
@@ -5915,7 +5918,7 @@ function PGGSurprise({ host }) {
   return html`<div class="surprise">
     <div class="gift anim-pop">🍬</div>
     <${Kicker}>서프라이즈<//>
-    <h1 class="h-title" style=${{ margin: 0 }}>방금 점수, <em>젤리</em>로 바꿔 드려요</h1>
+    <h1 class="h-title" style=${{ margin: 0 }}>방금 점수, <em>간식</em>으로 바꿔 드려요</h1>
     <p class="h-sub">${!st ? '끝나고 다 같이 받아 가세요.' : ok ? `서프라이즈 게이지 ${pct(st.gauge)} · 목표 달성, 끝나고 다 같이 받아 가세요.` : `서프라이즈 게이지 ${pct(st.gauge)} · 목표엔 조금 모자랐지만 다 같이 받아 가요.`}</p>
     ${st ? html`<div style=${{ width: 'min(36em, 80vw)', marginTop: '1em' }}><${Gauge} host=${host} /></div>` : null}
     <p class="muted" style=${{ marginTop: '.6em' }}>시상이나 상장은 없어요. 가볍게 즐겨요.</p>
@@ -6465,14 +6468,14 @@ function PBluffPlay({ v, pl }) {
 
 // [이모지, 문구, 색]
 const SEND_OUT = {
-  TB: ['🤝', '서로 이득', 'green'],
+  TB: ['🤝', '믿음', 'green'],
   LB: ['😎', '속였어요', 'amber'],
   LD: ['😬', '들켰어요', 'red'],
   TD: ['😶', '진실인데 의심받았어요', 'gray'],
   X: ['⏱', '상대가 시간 안에 못 골랐어요', 'gray'],
 };
 const RECV_OUT = {
-  TB: ['🤝', '서로 이득', 'green'],
+  TB: ['🤝', '믿음', 'green'],
   LB: ['😵', '속았어요', 'red'],
   LD: ['🕵️', '거짓말을 잡았어요', 'yellow'],
   TD: ['😶', '진실인데 의심했어요', 'gray'],
@@ -6864,7 +6867,7 @@ function PSurprise({ v }) {
   const ok = has && v.gauge >= v.target;
   return html`<div class="stack center" style=${{ gap: '12px', paddingTop: '20px' }}>
     <div class="bigemoji anim-pop" style=${{ fontSize: '84px' }}>🍬</div>
-    <h2 class="ptitle">방금 점수,<br /><em>젤리</em>로 바꿔 드려요</h2>
+    <h2 class="ptitle">방금 점수,<br /><em>간식</em>으로 바꿔 드려요</h2>
     <p class="psub">${!has ? '끝나고 다 같이 받아 가세요.' : ok ? '목표 달성, 끝나고 받아 가세요.' : '목표엔 조금 모자랐지만 오늘은 다 같이 받아 가요.'}</p>
     ${has ? html`<div class="pcard"><div class="kv"><span>🎁 서프라이즈 게이지</span><b class="num">${pct(v.gauge)}</b></div>${v.total !== null && v.total !== undefined ? html`<div class="kv"><span>내가 모은 코인</span><b class="num">🪙 ${fmt1(v.total)}</b></div>` : null}</div>` : null}
   </div>`;
