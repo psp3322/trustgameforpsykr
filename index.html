@@ -563,6 +563,15 @@ button.scorechip { font: inherit; font-weight: 800; font-size: 14px; color: var(
 /* 학생 폰: 본문 글씨를 조금 키운다 */
 .pbody, .sheet { zoom: 1.1; }
 
+/* 공공재 결과: 반사회적 처벌 설명 */
+.anti { display: flex; gap: 1.3em; align-items: center; padding: 1em 1.4em; margin-top: .9em; border-color: var(--amber); background: var(--amber-soft); }
+.anti-n { display: flex; align-items: baseline; gap: .1em; color: var(--amber); font-weight: 900; }
+.anti-n b { font-size: 2.6em; line-height: 1; }
+.anti-n span { font-size: 1.1em; }
+.anti-t h4 { margin: 0 0 .35em; font-size: 1em; }
+.anti-t p { margin: 0; color: var(--ink2); font-size: .92em; line-height: 1.55; word-break: keep-all; }
+.anti-t .cite { margin-top: .35em; font-size: .78em; color: var(--ink3); font-weight: 600; }
+
 </style>
 </head>
 <body>
@@ -3949,7 +3958,19 @@ function createHost(params, net) {
       const xs = per.filter((x) => x.part === part);
       return xs.length ? avg(xs.map((x) => x.rate)) : null;
     };
-    return { per, gauge, rateA: rateOf('A'), rateB: rateOf('B'), groupTotal: got };
+    // 반사회적 처벌: 나와 같거나 더 많이 넣은 사람을 응징한 경우 (Herrmann, Thöni & Gächter, 2008의 정의)
+    let hits = 0, antiHits = 0, antiActs = 0;
+    const antiFrom = new Set();
+    G.rounds.filter((R) => R.part === 'B' && R.recv).forEach((R) => {
+      Object.entries(R.punish || {}).forEach(([from, m]) => {
+        Object.entries(m).forEach(([to, k]) => {
+          if (!k) return;
+          hits += k;
+          if (R.contrib[to] >= R.contrib[from]) { antiHits += k; antiActs++; antiFrom.add(from); }
+        });
+      });
+    });
+    return { per, gauge, rateA: rateOf('A'), rateB: rateOf('B'), groupTotal: got, hits, antiHits, antiActs, antiN: antiFrom.size };
   }
 
   /* ---------- 종합 점수 (모든 게임) ---------- */
@@ -5898,7 +5919,7 @@ function PGGEnd({ host }) {
     <h1 class="headline">${head}</h1>
     <div class="compare">
       <div class="card cbox"><h4>판별 평균 기여율</h4>
-        <${LineChart} series=${[{ color: COL.rust, pts: all.map((x) => x.rate) }]} xLabels=${all.map((x) => `${x.part}${x.idx + 1}`)} divider=${A.length} dividerLabel="👊 등장" />
+        <${LineChart} series=${[{ color: COL.rust, pts: all.map((x) => x.rate) }]} xLabels=${all.map((x) => `${x.part}${x.idx + 1}`)} divider=${A.length} dividerLabel="👊 등장" height=${st.antiActs ? 170 : 220} />
       </div>
       <div class="stack">
         <div class="card cbox"><h4>단계별 평균</h4>
@@ -5907,6 +5928,14 @@ function PGGEnd({ host }) {
         <${Gauge} host=${host} />
       </div>
     </div>
+    ${st.antiActs ? html`<div class="card anti anim-fade">
+      <div class="anti-n"><b class="num">${st.antiActs}</b><span>번</span></div>
+      <div class="anti-t">
+        <h4>🤔 나만큼 또는 나보다 많이 넣은 동물을 응징한 경우가 있었어요 <span class="muted num">(👊 ${st.hits}개 중 ${st.antiHits}개)</span></h4>
+        <p>이걸 <b>반사회적 처벌</b>이라고 해요. 16개 도시를 비교한 연구에서 무스카트·아테네·리야드에서 특히 많았고, 보스턴·멜버른에선 거의 없었어요(서울은 7번째). 사회의 협력 규범과 법치가 약한 곳일수록 많았고, 그런 곳에선 응징 버튼이 있어도 협력이 잘 늘지 않았어요.</p>
+        <div class="cite">Herrmann, Thöni & Gächter (2008), <i>Science</i></div>
+      </div>
+    </div>` : null}
   </div>`;
 }
 
